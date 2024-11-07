@@ -48,6 +48,21 @@ public:
 };
 
 template<typename Map, typename K, typename E>
+class RemoveTest : public Test<Map, K, E>
+{
+private:
+    size_t index_ = 0;
+protected:
+    std::vector<K> keys_;
+public:
+    RemoveTest(Map* map, std::vector<K> &&keys);
+    void before() override;
+    void execute() override;
+    void after() override;
+    ~RemoveTest() override;
+};
+
+template<typename Map, typename K, typename E>
 Test<Map, K, E>::Test(Map *map)
 {
     map_ = map;
@@ -72,7 +87,7 @@ LookupTest<Map, K, E>::LookupTest(Map* map, std::vector<K>* keys): Test<Map, K, 
 
 template<typename Map, typename K, typename E>
 void LookupTest<Map, K, E>::before() {
-    if (index_ == keys_->size())
+    if (keys_->size() == index_)
         throw std::runtime_error("Out of bounds");
 }
 
@@ -98,7 +113,6 @@ InsertTest<Map, K, E>::InsertTest(Map *map, std::vector<K> *keys, E dummyVal): T
 
 template<typename Map, typename K, typename E>
 void InsertTest<Map, K, E>::before() {
-    ++index_;
 }
 
 template<typename Map, typename K, typename E>
@@ -108,9 +122,29 @@ void InsertTest<Map, K, E>::execute() {
 
 template<typename Map, typename K, typename E>
 void InsertTest<Map, K, E>::after() {
+    ++index_;
 }
 
 template<typename Map, typename K, typename E>
 InsertTest<Map, K, E>::~InsertTest() {
     delete keys_;
+}
+
+template<typename Map, typename K, typename E>
+RemoveTest<Map, K, E>::RemoveTest(Map *map, std::vector<K> &&keys): Test<Map, K, E>(map) {
+    keys_ = keys;
+}
+
+template<typename Map, typename K, typename E>
+void RemoveTest<Map, K, E>::before() {
+}
+
+template<typename Map, typename K, typename E>
+void RemoveTest<Map, K, E>::execute() {
+    this->map_->remove(keys_->at(index_));
+}
+
+template<typename Map, typename K, typename E>
+void RemoveTest<Map, K, E>::after() {
+    ++index_;
 }
