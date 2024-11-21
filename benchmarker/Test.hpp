@@ -131,8 +131,7 @@ InsertTest<Map, K, E>::~InsertTest() {
 }
 
 template<typename Map, typename K, typename E>
-RemoveTest<Map, K, E>::RemoveTest(Map *map, std::vector<K> &&keys): Test<Map, K, E>(map) {
-    keys_ = keys;
+RemoveTest<Map, K, E>::RemoveTest(Map *map, std::vector<K> &&keys): Test<Map, K, E>(map), keys_(keys) {
 }
 
 template<typename Map, typename K, typename E>
