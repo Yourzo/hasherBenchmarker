@@ -1,6 +1,8 @@
 #include <iostream>
 #include <unordered_map>
 #include <chrono>
+
+#include "Benchmark.hpp"
 #include "Test.hpp"
 #include "../hasherLib/int_hashers.cpp"
 #include "../hasherLib/string_hashers.cpp"
@@ -10,6 +12,10 @@ using map = std::unordered_map<K, T, H>;
 
 int main()
 {
+    Benchmark<map<std::string, int, jenkins_hash>, std::string, int> benchmark("hehe", 6);
+
+    //
+
     auto ump = new map<std::string, int, jenkins_hash>();
     std::vector<std::string> ve;
     ump->insert({"hehe", 1});
