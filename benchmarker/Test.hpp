@@ -9,7 +9,8 @@ public:
     virtual void execute() = 0;
     virtual void before() = 0;
     virtual size_t getSize() = 0;
-    virtual ~TestBase();
+    virtual std::string getName() = 0;
+    virtual ~TestBase() = default;
 };
 
 template<typename Map>
@@ -17,9 +18,11 @@ class Test: public TestBase
 {
 protected:
     Map* map_;
+    std::string name_;
 public:
-    explicit Test(Map *map);
+    Test(Map *map, std::string name);
     size_t getMapSize() override;
+    std::string getName() override;
     ~Test() override;
 };
 
@@ -31,12 +34,11 @@ private:
 protected:
     std::vector<K> keys_;
 public:
-    LookupTest(Map* map, std::vector<K> &&keys);
+    LookupTest(Map* map, std::vector<K> &&keys, std::string);
     void before() override;
     void execute() override;
     void after() override;
     size_t getSize() override;
-    ~LookupTest() override = default;
 };
 
 template<typename Map, typename K, typename E>
@@ -48,12 +50,11 @@ protected:
     std::vector<K> keys_;
     E dummyVal_;
 public:
-    InsertTest(Map* map, std::vector<K> &&keys, E dummyVal);
+    InsertTest(Map* map, std::vector<K> &&keys, std::string name, E dummyVal);
     void before() override;
     void execute() override;
     void after() override;
     size_t getSize() override;
-    ~InsertTest() override = default;
 };
 
 template<typename Map, typename K, typename E>
@@ -64,18 +65,18 @@ private:
 protected:
     std::vector<K> keys_;
 public:
-    RemoveTest(Map* map, std::vector<K> &&keys);
+    RemoveTest(Map* map, std::vector<K> &&keys, std::string name);
     void before() override;
     void execute() override;
     void after() override;
     size_t getSize() override;
-    ~RemoveTest() override = default;
 };
 
 template<typename Map>
-Test<Map>::Test(Map *map)
+Test<Map>::Test(Map *map, std::string name)
 {
     map_ = map;
+    name_ = std::move(name);
 }
 
 template<typename Map>
@@ -90,9 +91,14 @@ size_t Test<Map>::getMapSize()
     return map_->size();
 }
 
+template<typename Map>
+std::string Test<Map>::getName() {
+    return name_;
+}
+
 template<typename Map, typename K, typename E>
-LookupTest<Map, K, E>::LookupTest(Map* map, std::vector<K> &&keys):
-Test<Map>(map), keys_(keys) {}
+LookupTest<Map, K, E>::LookupTest(Map* map, std::vector<K> &&keys, std::string name):
+Test<Map>(map, name), keys_(keys) {}
 
 
 template<typename Map, typename K, typename E>
@@ -117,8 +123,8 @@ size_t LookupTest<Map, K, E>::getSize() {
 }
 
 template<typename Map, typename K, typename E>
-InsertTest<Map, K, E>::InsertTest(Map *map, std::vector<K> &&keys, E dummyVal):
-Test<Map>(map), dummyVal_(dummyVal), keys_(keys) {}
+InsertTest<Map, K, E>::InsertTest(Map *map, std::vector<K> &&keys, std::string name, E dummyVal):
+Test<Map>(map, name), keys_(keys), dummyVal_(dummyVal) {}
 
 template<typename Map, typename K, typename E>
 void InsertTest<Map, K, E>::before() {
@@ -140,8 +146,8 @@ size_t InsertTest<Map, K, E>::getSize() {
 }
 
 template<typename Map, typename K, typename E>
-RemoveTest<Map, K, E>::RemoveTest(Map *map, std::vector<K> &&keys):
-Test<Map>(map), keys_(keys) {}
+RemoveTest<Map, K, E>::RemoveTest(Map *map, std::vector<K> &&keys, std::string name):
+Test<Map>(map, name), keys_(keys) {}
 
 template<typename Map, typename K, typename E>
 void RemoveTest<Map, K, E>::before() {
