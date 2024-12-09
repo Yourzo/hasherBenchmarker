@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 
 class TestBase {
 public:
@@ -73,10 +74,9 @@ public:
 };
 
 template<typename Map>
-Test<Map>::Test(Map *map, std::string name)
+Test<Map>::Test(Map *map, std::string name):name_(std::move(name))
 {
     map_ = map;
-    name_ = std::move(name);
 }
 
 template<typename Map>
