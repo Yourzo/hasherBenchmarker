@@ -13,7 +13,7 @@ public:
     Benchmark(std::string name, size_t size);
     void addTest(TestBase *test);
     std::vector<Result> run();
-    ~Benchmark();
+    ~Benchmark() = default;
 
 private:
     std::vector<TestBase*> tests_{};

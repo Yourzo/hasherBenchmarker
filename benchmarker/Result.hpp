@@ -17,5 +17,6 @@ public:
 private:
     std::vector<nano_t> measurements_;
     std::string name_;
+    std::string serveData();
 };
 
