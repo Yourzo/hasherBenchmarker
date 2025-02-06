@@ -10,12 +10,16 @@ using nano_t = std::chrono::nanoseconds;
 
 class Benchmark {
 public:
-    Benchmark(std::string name, size_t size);
+    Benchmark(std::string name, size_t size, std::string hasherType, std::string keyType, size_t replications);
     void addTest(TestBase *test);
-    std::vector<Result> run();
+    Result* run();
     ~Benchmark() = default;
 
+    //todo move values from test to here
 private:
     std::vector<TestBase*> tests_{};
+    size_t replications_;//this
+    std::string keyType_;
+    std::string hasherType_;
     std::string name_;
 };

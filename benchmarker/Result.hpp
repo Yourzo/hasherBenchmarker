@@ -1,6 +1,7 @@
 #pragma once
 
 #include <chrono>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -8,15 +9,22 @@ using nano_t = std::chrono::nanoseconds;
 
 class Result{
 public:
-    Result(std::string name, size_t recordCount);
+    explicit Result(size_t replications, std::string hasher, std::string type);
     void outPutRecs();
     void printAvg();
-    void outToCSV(const std::string &path);
-    void addRecord(nano_t record);
+    void writeToFile();
+    void addKey(const std::string &testName) const;
+    void addRecord(const std::string &testName, nano_t record) const;
+    ~Result();
 
 private:
-    std::vector<nano_t> measurements_;
+    std::map<std::string, std::vector<nano_t>>* measurements_;
+    std::vector<std::string>* keys_;
     std::string name_;
+    std::string hasher_;
+    std::string type_;
+    size_t replications_;
+    void writeCsv(const std::string &path) const;
+    void writeJson(const std::string &path);
     std::string serveData();
 };
-

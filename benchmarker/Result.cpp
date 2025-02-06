@@ -1,31 +1,67 @@
 #include "Result.hpp"
 #include <iostream>
 #include <fstream>
-#include <stdexcept>
+#include <ctime>
+#include <utility>
+#include <format>
+#include <sstream>
 
-Result::Result(std::string name, const size_t recordCount): name_(std::move(name))
+Result::Result(size_t replications, std::string hasher, std::string type)
 {
-    measurements_.reserve(recordCount);
+    hasher_ = std::move(hasher);
+    type_ = std::move(type);
+    measurements_ = new std::map<std::string, std::vector<nano_t>>();
+    replications_ = replications;
+    keys_ = new std::vector<std::string>();
 }
 
-void Result::printAvg() {
-    nano_t sum = {};
-    for (const auto data: measurements_) {
-        sum += data;
+void Result::writeToFile() {
+    const time_t now = std::time(nullptr);
+    const std::string dataName = now + "data.csv";
+    std::string metadataName = now + "metadata.json";
+    writeCsv(dataName);
+    writeJson(metadataName);
+}
+
+void Result::addKey(const std::string &testName) const {
+    keys_->push_back(testName);
+}
+
+void Result::addRecord(const std::string &testName, nano_t record) const {
+    (*measurements_)[testName].push_back(record);
+}
+
+void Result::writeCsv(const std::string &path) const {
+    std::fstream file;
+    file.open(path);
+    file << "replications;";
+    for (size_t i = 0; i < keys_->size(); ++i) {
+        file << (*keys_)[i];
+        if (i < keys_->size() - 1) {
+            file << ";";
+        }
     }
-    nano_t avg = sum / measurements_.size();
-    std::cout << name_ << " avg operation time: " << avg << std::endl;
-}
-
-void Result::outToCSV(const std::string &path) {
-    std::fstream _file(path);
-    if (!_file.is_open()) {
-        throw std::runtime_error("hehe");
+    file << std::endl;
+    for (size_t i = 0; i < replications_; ++i) {
+        file << i + 1 << ";";
+        for (size_t j = 0; j < keys_->size(); ++j) {
+            file << (*measurements_)[(*keys_)[j]][i];
+            if (j < keys_->size() - 1) {
+                file << ";";
+            }
+        }
+        file << std::endl;
     }
+    file.close();
 }
 
-void Result::addRecord(const nano_t record) {
-    measurements_.push_back(record);
+void Result::writeJson(const std::string &path) {
+    std::fstream file;
+    file.open(path);
+    std::stringstream jsonSteam;
+    jsonSteam << "{\n  \"keyType\": \"" << type_ << "\",\n  \"hashType\": \"" << hasher_ << "\"\n}";
+    file << jsonSteam.str();
+    file.close();
 }
 
 std::string Result::serveData() {
@@ -33,3 +69,8 @@ std::string Result::serveData() {
 
         return result;
 }
+
+Result::~Result() {
+    delete measurements_;
+}
+

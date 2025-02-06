@@ -6,4 +6,3 @@ project(HasherBenchmarker VERSION 1.0
 )
 
 add_subdirectory(benchmarker)
-add_subdirectory(hasherLib)
