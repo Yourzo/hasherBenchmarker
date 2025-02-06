@@ -1,7 +1,10 @@
 #pragma once
 
+#include <iostream>
 #include <vector>
 #include <string>
+
+#include "Test.hpp"
 
 class TestBase {
 public:
@@ -28,7 +31,7 @@ public:
 };
 
 template<typename Map, typename K, typename E>
-class LookupTest : public Test<Map>
+class LookupTest : public virtual Test<Map>
 {
 private:
     size_t index_ = 0;
@@ -43,7 +46,7 @@ public:
 };
 
 template<typename Map, typename K, typename E>
-class InsertTest : public Test<Map>
+class InsertTest : public virtual Test<Map>
 {
 private:
     size_t index_ = 0;
@@ -59,7 +62,7 @@ public:
 };
 
 template<typename Map, typename K, typename E>
-class RemoveTest : public Test<Map>
+class RemoveTest : public virtual Test<Map>
 {
 private:
     size_t index_ = 0;
@@ -71,6 +74,22 @@ public:
     void execute() override;
     void after() override;
     size_t getSize() override;
+};
+
+template<typename Map, typename K, typename E>
+class TestScenario final :
+    public LookupTest<Map, K, E>,
+    public InsertTest<Map, K, E>,
+    public RemoveTest<Map, K, E>
+{
+    std::string name_;
+public:
+    TestScenario(Map* map, std::vector<K> &&lookupKeys, std::vector<K> &&insertKeys, std::vector<K> &&removeKeys, std::string name);
+    void before() override;
+    void execute() override;
+    void after() override;
+    void print();
+
 };
 
 template<typename Map>
@@ -166,4 +185,19 @@ void RemoveTest<Map, K, E>::after() {
 template<typename Map, typename K, typename E>
 size_t RemoveTest<Map, K, E>::getSize() {
     return keys_.size();
+}
+
+template<typename Map, typename K, typename E>
+TestScenario<Map, K, E>::TestScenario(Map *map, std::vector<K> &&lookupKeys, std::vector<K> &&insertKeys,
+    std::vector<K> &&removeKeys, std::string name):
+LookupTest<Map, K, E>(map, lookupKeys, name + "- lookup"),
+InsertTest<Map, K, E>(map, insertKeys, name + "- insert"),
+RemoveTest<Map, K, E>(map, removeKeys, name + "- remove")
+{
+    name_ = name;
+}
+
+template<typename Map, typename K, typename E>
+void TestScenario<Map, K, E>::print() {
+    std::cout << this->keys_ << std::endl;
 }

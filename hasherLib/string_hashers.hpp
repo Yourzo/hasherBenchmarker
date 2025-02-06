@@ -1,3 +1,4 @@
+#pragma once
 
 #include <cstddef>
 #include <string>
@@ -19,7 +20,7 @@ struct jenkins_hash { //polynomial rolling hash
     std::size_t operator()(const std::string & s) const {
         unsigned int hash = 1315423911;
         for (size_t i = 0; i < s.length(); i++) {
-            hash ^= ((hash << 5) + s[i] + (hash >> 2));
+            hash ^= (hash << 5) + s[i] + (hash >> 2);
         }
         return hash & 0x7FFFFFFF;
     }

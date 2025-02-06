@@ -3,8 +3,8 @@
 #include "Benchmark.hpp"
 #include "Result.hpp"
 #include "Test.hpp"
-#include "../hasherLib/int_hashers.cpp"
-#include "../hasherLib/string_hashers.cpp"
+#include "../hasherLib/int_hashers.hpp"
+#include "../hasherLib/string_hashers.hpp"
 
 template<typename K, typename T, typename H>
 using map = std::unordered_map<K, T, H>;
@@ -29,6 +29,22 @@ int main()
     ve3.push_back(1);
     RemoveTest<map<int, int, hash_int2>, int, int> remove_test(ump3, (std::move(ve3)), "haha");
     Benchmark bch("TEST", 3);
+
+    auto ump4 = new map<int, int, hash_int>();
+    std::vector<int> veee;
+    std::vector<int> veve;
+    std::vector<int> vuvu;
+    ump4->insert({1, 1});
+    veee.push_back(1);
+    veve.push_back(2);
+    ump4->insert({4,1});
+    vuvu.push_back(4);
+    TestScenario<map<int, int, hash_int>, int, int> scenario(ump4, std::move(veee), std::move(veve), std::move(vuvu),"habanero test");
+    bch.addTest(&scenario);
+
+
+
+
     bch.addTest(&remove_test);
     bch.addTest(&rmTest);
     bch.addTest(&test);

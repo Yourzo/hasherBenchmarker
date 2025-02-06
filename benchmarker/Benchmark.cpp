@@ -12,7 +12,6 @@ void Benchmark::addTest(TestBase *test) {
 std::vector<Result> Benchmark::run() {
     std::vector<Result> results;
     results.reserve(tests_.size());
-    size_t index = 0;
     for (TestBase* test: tests_) {
         results.emplace_back(test->getName(), test->getSize());
         for (size_t i = 0; i < test->getSize(); ++i) {

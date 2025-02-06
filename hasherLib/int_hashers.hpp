@@ -1,4 +1,3 @@
-#pragma once
 #include <cstddef>
 
 struct hash_int {

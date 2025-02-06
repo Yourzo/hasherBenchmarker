@@ -1,6 +1,6 @@
 add_library(hashers SHARED)
 
-target_sources(hashers PRIVATE int_hashers.cpp string_hashers.cpp)
+target_sources(hashers PRIVATE int_hashers.hpp string_hashers.hpp)
 
 target_compile_options(hashers PUBLIC  "-O2" "-std=gnu++20")
 
