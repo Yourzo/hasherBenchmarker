@@ -12,7 +12,7 @@ public:
     explicit Result(size_t replications, std::string hasher, std::string type);
     void outPutRecs();
     void printAvg();
-    void writeToFile();
+    void writeToFile() const;
     void addKey(const std::string &testName) const;
     void addRecord(const std::string &testName, nano_t record) const;
     ~Result();
@@ -25,6 +25,6 @@ private:
     std::string type_;
     size_t replications_;
     void writeCsv(const std::string &path) const;
-    void writeJson(const std::string &path);
+    void writeJson(const std::string &path) const;//tested
     std::string serveData();
 };

@@ -22,4 +22,3 @@ Result* Benchmark::run() {
     }
     return result;
 }
-

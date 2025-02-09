@@ -1,12 +1,11 @@
 #include "Result.hpp"
-#include <iostream>
-#include <fstream>
 #include <ctime>
-#include <utility>
-#include <format>
+#include <filesystem>
+#include <fstream>
 #include <sstream>
+#include <utility>
 
-Result::Result(size_t replications, std::string hasher, std::string type)
+Result::Result(const size_t replications, std::string hasher, std::string type)
 {
     hasher_ = std::move(hasher);
     type_ = std::move(type);
@@ -15,10 +14,16 @@ Result::Result(size_t replications, std::string hasher, std::string type)
     keys_ = new std::vector<std::string>();
 }
 
-void Result::writeToFile() {
+void Result::writeToFile() const {
     const time_t now = std::time(nullptr);
-    const std::string dataName = now + "data.csv";
-    std::string metadataName = now + "metadata.json";
+    std::filesystem::path currPath = std::filesystem::current_path();
+    create_directories(currPath.append("results"));
+
+    std::filesystem::path dataName(currPath);
+    dataName /= (std::to_string(now) + ".data.csv");
+    std::filesystem::path metadataName(currPath);
+    metadataName /= (std::to_string(now) + ".metadata.json");
+
     writeCsv(dataName);
     writeJson(metadataName);
 }
@@ -27,7 +32,7 @@ void Result::addKey(const std::string &testName) const {
     keys_->push_back(testName);
 }
 
-void Result::addRecord(const std::string &testName, nano_t record) const {
+void Result::addRecord(const std::string &testName, const nano_t record) const {
     (*measurements_)[testName].push_back(record);
 }
 
@@ -55,11 +60,10 @@ void Result::writeCsv(const std::string &path) const {
     file.close();
 }
 
-void Result::writeJson(const std::string &path) {
-    std::fstream file;
-    file.open(path);
+void Result::writeJson(const std::string &path) const {
+    std::ofstream file(path);
     std::stringstream jsonSteam;
-    jsonSteam << "{\n  \"keyType\": \"" << type_ << "\",\n  \"hashType\": \"" << hasher_ << "\"\n}";
+    jsonSteam << "{\n  \"keyType\": \"" << type_ << "\",\n  \"hashType\": \"" << hasher_ << "\"\n}\n";
     file << jsonSteam.str();
     file.close();
 }
@@ -73,4 +77,3 @@ std::string Result::serveData() {
 Result::~Result() {
     delete measurements_;
 }
-

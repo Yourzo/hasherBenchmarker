@@ -12,4 +12,6 @@ using map = std::unordered_map<K, T, H>;
 int main()
 {
 
+    Result res(10, "identity", "int");
+    res.writeToFile();
 }
