@@ -2,16 +2,15 @@
 #include <ctime>
 #include <filesystem>
 #include <fstream>
+#include <iostream>
 #include <sstream>
 #include <utility>
 
-Result::Result(const size_t replications, std::string hasher, std::string type)
+Result::Result(const size_t replications)
 {
-    hasher_ = std::move(hasher);
-    type_ = std::move(type);
     measurements_ = new std::map<std::string, std::vector<nano_t>>();
     replications_ = replications;
-    keys_ = new std::vector<std::string>();
+    testNames_ = new std::vector<std::string>();
 }
 
 void Result::writeToFile() const {
@@ -28,30 +27,31 @@ void Result::writeToFile() const {
     writeJson(metadataName);
 }
 
-void Result::addKey(const std::string &testName) const {
-    keys_->push_back(testName);
+void Result::addTest(const std::string &testName, const std::string& keyTypeName, const std::string& hasherName) {
+    testNames_->push_back(testName);
+    metadata_.emplace(testName, ResultMetadata(hasherName, keyTypeName));
 }
 
-void Result::addRecord(const std::string &testName, const nano_t record) const {
+void Result::addRecord(const std::string &testName, const nano_t record) {
     (*measurements_)[testName].push_back(record);
 }
 
 void Result::writeCsv(const std::string &path) const {
-    std::fstream file;
+    std::ofstream file;
     file.open(path);
     file << "replications;";
-    for (size_t i = 0; i < keys_->size(); ++i) {
-        file << (*keys_)[i];
-        if (i < keys_->size() - 1) {
+    for (size_t i = 0; i < testNames_->size(); ++i) {
+        file << (*testNames_)[i];
+        if (i != testNames_->size() - 1) {
             file << ";";
         }
     }
     file << std::endl;
     for (size_t i = 0; i < replications_; ++i) {
         file << i + 1 << ";";
-        for (size_t j = 0; j < keys_->size(); ++j) {
-            file << (*measurements_)[(*keys_)[j]][i];
-            if (j < keys_->size() - 1) {
+        for (size_t j = 0; j < testNames_->size(); ++j) {
+            file << (*measurements_)[(*testNames_)[j]][i];
+            if (j != testNames_->size() - 1) {
                 file << ";";
             }
         }
@@ -63,15 +63,14 @@ void Result::writeCsv(const std::string &path) const {
 void Result::writeJson(const std::string &path) const {
     std::ofstream file(path);
     std::stringstream jsonSteam;
-    jsonSteam << "{\n  \"keyType\": \"" << type_ << "\",\n  \"hashType\": \"" << hasher_ << "\"\n}\n";
+    jsonSteam << "{ \"hashers\": [";
+    for (size_t i = 0; i < testNames_->size(); ++i) {
+        jsonSteam << "{\"keyType\": \"" << metadata_.find(testNames_->at(i))->second.keyTypeName_ <<
+            "\",  \"hashType\": \"" << metadata_.find(testNames_->at(i))->second.hasherName_ << "\"}";
+    }
+    jsonSteam << "] }";
     file << jsonSteam.str();
     file.close();
-}
-
-std::string Result::serveData() {
-    std::string result = name_ + "\n";
-
-        return result;
 }
 
 Result::~Result() {

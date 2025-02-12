@@ -1,7 +1,8 @@
 #include "Benchmark.hpp"
 
-Benchmark::Benchmark(std::string name, size_t size, std::string hasherType, std::string keyType, size_t replications):
-name_(std::move(name)), hasherType_(std::move(hasherType)), keyType_(std::move(keyType)) {
+
+Benchmark::Benchmark(std::string name, size_t size, size_t replications):
+name_(std::move(name)) {
     tests_.reserve(size);
     replications_ = replications;
 }
@@ -11,8 +12,9 @@ void Benchmark::addTest(TestBase *test) {
 }
 
 Result* Benchmark::run() {
-    const auto result = new Result(replications_, hasherType_, keyType_);
+    auto* result = new Result(replications_);
     for (TestBase* test: tests_) {
+        result->addTest(test->getName(), test->getTypeName(), test->getHasherName());
         for (size_t i = 0; i < replications_; ++i) {
             auto start = std::chrono::high_resolution_clock::now();
             test->execute();

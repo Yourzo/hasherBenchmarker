@@ -6,22 +6,24 @@
 #include <unordered_map>
 #include <functional>
 #include <stdexcept>
+#include <any>
 
 
 struct IGenerator {
 	virtual ~IGenerator() = default;
-    virtual void* operator()(size_t count) = 0;
+    virtual std::vector<std::any> operator()(size_t count) = 0;
 };
 
 struct BasicIntGenerator : public IGenerator {
-    void* operator()(size_t count) {
-        auto result = new std::vector<int>(count);
+    std::vector<std::any> operator()(size_t count) override {
+        std::vector<std::any> result;
+        result.reserve(count);
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_int_distribution<int> dist(INT_MIN, INT_MAX);
         for (size_t i = 0; i < count; ++i)
         {
-            (*result)[i] = dist(gen);
+            result[i] = dist(gen);
         }
         return result;
     }
@@ -32,18 +34,18 @@ struct BaseStringGenerator : public IGenerator {
 
     explicit BaseStringGenerator(size_t len) : length_(len) {}
 
-    void* operator()(size_t count) {
-    	auto result = new std::vector<std::string>();
-        result->reserve(count);
+     std::vector<std::any> operator()(size_t count) override {
+    	std::vector<std::any> result;
+        result.reserve(count);
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_int_distribution<int> dist(48, 122);
         for (size_t i = 0; i < count; ++i) {
-            std::string currWord = "";
+            std::string currWord;
             for (size_t j = 0; j < length_; ++j) {
-                currWord = static_cast<char>(dist(gen));
+                currWord.push_back(static_cast<char>(dist(gen)));
             }
-            (*result)[i] = currWord;
+            result.emplace_back(currWord);
         }
         return result;
     }
