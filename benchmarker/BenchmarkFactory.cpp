@@ -1,9 +1,8 @@
 #include "BenchmarkFactory.hpp"
 
-#include <iostream>
-
 #include "../hasherLib/int_hashers.hpp"
 #include "../hasherLib/string_hashers.hpp"
+#include "../hasherLib/pointer_hasher.hpp"
 #include "Generators.hpp"
 #include "Test.hpp"
 
@@ -26,6 +25,8 @@ void BenchmarkFactory::initialize() {
     hashers_["modulo"] = new hash_int2();
     hashers_["rolling hash"] = new rolling_sum_hash();
     hashers_["jenkins hash"] = new jenkins_hash();
+    hashers_["modulo pointer"] = new pointer_modulo();
+    hashers_["shift 4 pointer"] = new pointer_shift();
 }
 
 TestBase* BenchmarkFactory::createTest(const std::string &type, const std::string &hasher, const size_t size, const std::string& generator) {

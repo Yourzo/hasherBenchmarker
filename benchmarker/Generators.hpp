@@ -8,10 +8,35 @@
 #include <stdexcept>
 #include <any>
 
+#include "BenchmarkFactory.hpp"
+
 
 struct IGenerator {
 	virtual ~IGenerator() = default;
     virtual std::vector<std::any> operator()(size_t count) = 0;
+};
+
+struct PointerOrderedPlaceGenerator : public IGenerator {
+    std::vector<std::any> operator()(size_t count) override {
+        std::vector<std::any> result;
+        std::vector<Dummy> blocks;
+        for (size_t i = 0; i < count; ++i) {
+            blocks.emplace_back();
+            result[i] = blocks.end();
+        }
+        return result;
+    }
+};
+
+struct PointerRandomPlaceGenerator : public IGenerator {
+    std::vector<std::any> operator()(size_t count) override {
+        std::vector<std::any> result;
+        for (size_t i = 0; i < count; ++i) {
+            auto val = new Dummy();
+            result[i] = val;
+        }
+        return result;
+    }
 };
 
 struct BasicIntGenerator : public IGenerator {

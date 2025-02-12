@@ -3,9 +3,11 @@
 std::unordered_map<std::string, std::function<IGenerator*()>> GeneratorFactory::generators_;
 
 void GeneratorFactory::initGens() {
-	generators_["basic_int"] = []() { return new BasicIntGenerator(); };
-	generators_["long_string"] = []() { return new LongStringGenerator(); };
-	generators_["small_string"] = []() { return new SmallStringGenerator(); };
+	generators_["basic int"] = []() { return new BasicIntGenerator(); };
+	generators_["long string"] = []() { return new LongStringGenerator(); };
+	generators_["small string"] = []() { return new SmallStringGenerator(); };
+	generators_["packed pointer"] = [](){ return new PointerOrderedPlaceGenerator(); };
+	generators_["random pointer"] = [](){ return new PointerRandomPlaceGenerator(); };
 }
 
 IGenerator* GeneratorFactory::createGenerator(const std::string& name) {
