@@ -65,8 +65,12 @@ void Result::writeJson(const std::string &path) const {
     std::stringstream jsonSteam;
     jsonSteam << "{ \"hashers\": [";
     for (size_t i = 0; i < testNames_->size(); ++i) {
-        jsonSteam << "{\"keyType\": \"" << metadata_.find(testNames_->at(i))->second.keyTypeName_ <<
+        jsonSteam << "{\"name\": \"" << testNames_->at(i) <<
+                     "\", \"keyType\": \"" << metadata_.find(testNames_->at(i))->second.keyTypeName_ <<
             "\",  \"hashType\": \"" << metadata_.find(testNames_->at(i))->second.hasherName_ << "\"}";
+        if (i != testNames_->size() - 1) {
+            jsonSteam << ",";
+        }
     }
     jsonSteam << "] }";
     file << jsonSteam.str();

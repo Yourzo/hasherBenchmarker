@@ -5,9 +5,6 @@
 #include <functional>
 #include "../hasherLib/hasherUtils.hpp"
 
-class Dummy {
-};
-
 class BenchmarkFactory {
 public:
     static Benchmark* createBenchmark(const std::vector<std::string> &types, const std::vector<std::string> &hashers, const std::vector<std::string> &generators,

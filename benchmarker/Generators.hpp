@@ -9,6 +9,7 @@
 #include <any>
 
 #include "BenchmarkFactory.hpp"
+#include "../hasherLib/pointer_hasher.hpp"
 
 
 struct IGenerator {
@@ -19,10 +20,10 @@ struct IGenerator {
 struct PointerOrderedPlaceGenerator : public IGenerator {
     std::vector<std::any> operator()(size_t count) override {
         std::vector<std::any> result;
-        std::vector<Dummy> blocks;
+        result.resize(count);
+        auto blocks = new Dummy[count];
         for (size_t i = 0; i < count; ++i) {
-            blocks.emplace_back();
-            result[i] = blocks.end();
+            result[i] = blocks[i];
         }
         return result;
     }
@@ -31,6 +32,7 @@ struct PointerOrderedPlaceGenerator : public IGenerator {
 struct PointerRandomPlaceGenerator : public IGenerator {
     std::vector<std::any> operator()(size_t count) override {
         std::vector<std::any> result;
+        result.resize(count);
         for (size_t i = 0; i < count; ++i) {
             auto val = new Dummy();
             result[i] = val;
@@ -42,7 +44,7 @@ struct PointerRandomPlaceGenerator : public IGenerator {
 struct BasicIntGenerator : public IGenerator {
     std::vector<std::any> operator()(size_t count) override {
         std::vector<std::any> result;
-        result.reserve(count);
+        result.resize(count);
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_int_distribution<int> dist(INT_MIN, INT_MAX);
@@ -61,7 +63,6 @@ struct BaseStringGenerator : public IGenerator {
 
      std::vector<std::any> operator()(size_t count) override {
     	std::vector<std::any> result;
-        result.reserve(count);
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_int_distribution<int> dist(48, 122);

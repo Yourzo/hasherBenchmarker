@@ -33,14 +33,12 @@ TestBase* BenchmarkFactory::createTest(const std::string &type, const std::strin
     BaseHasher& chosenHasher = *hashers_[hasher];
     HasherWrapper hasherWrapper(chosenHasher);
     auto hashMap = new std::unordered_map<std::any, int, HasherWrapper, HasherWrapper>(size, hasherWrapper, hasherWrapper);
-
     IGenerator* gen = GeneratorFactory::createGenerator(generator);
     auto keys = (*gen)(size);
-
     for (size_t i = 0; i < size; ++i) {
         (*hashMap)[keys[i]] = 0;
     }
     return new Test<decltype(hashMap), std::any, int>(
-        hashMap, "test", std::move(keys), hasher, type
+        hashMap,type , std::move(keys), hasher, type
     );
 }

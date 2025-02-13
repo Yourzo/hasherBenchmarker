@@ -23,7 +23,7 @@ struct rolling_sum_hash : public BaseHasher {
     }
 
     bool equals(const std::any& a, const std::any& b) const override {
-        return std::any_cast<bool>(a) == std::any_cast<bool>(b);
+        return std::any_cast<std::string>(a) == std::any_cast<std::string>(b);
     }
 };
 
@@ -41,6 +41,6 @@ struct jenkins_hash : public BaseHasher { //polynomial rolling hash
     }
 
     bool equals(const std::any& a, const std::any& b) const override {
-        return std::any_cast<bool>(a) == std::any_cast<bool>(b);
+        return std::any_cast<std::string>(a) == std::any_cast<std::string>(b);
     }
 };
