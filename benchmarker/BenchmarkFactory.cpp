@@ -9,10 +9,10 @@
 std::unordered_map<std::string, BaseHasher*> BenchmarkFactory::hashers_;
 
 Benchmark* BenchmarkFactory::createBenchmark(const std::vector<std::string> &types, const std::vector<std::string> &hashers, const std::vector<std::string> &generators,
-                                    const size_t replications, const size_t mapSize) {
-    auto* result = new Benchmark("test", mapSize, replications);
+                                    const size_t replications, const std::vector<size_t> &mapSizes) {
+    auto* result = new Benchmark("test", mapSizes, replications);
     for (size_t i = 0; i < types.size(); ++i) {
-        result->addTest(createTest(types[i], hashers[i],mapSize, generators[i]));
+        result->addTest(createTest(types[i], types[i], hashers[i], mapSizes[i], generators[i]));
     }
     return result;
 }
@@ -30,7 +30,7 @@ void BenchmarkFactory::initialize() {
     hashers_["shift 3 pointer"] = new pointer_shift_3();
 }
 
-TestBase* BenchmarkFactory::createTest(const std::string &type, const std::string &hasher, const size_t size, const std::string& generator) {
+TestBase* BenchmarkFactory::createTest(const std::string &type, const std::string &name, const std::string &hasher, const size_t size, const std::string& generator) {
     BaseHasher& chosenHasher = *hashers_[hasher];
     HasherWrapper hasherWrapper(chosenHasher);
     auto hashMap = new std::unordered_map<std::any, int, HasherWrapper, HasherWrapper>(size, hasherWrapper, hasherWrapper);
@@ -40,6 +40,6 @@ TestBase* BenchmarkFactory::createTest(const std::string &type, const std::strin
         (*hashMap)[keys[i]] = 0;
     }
     return new Test<decltype(hashMap), std::any, int>(
-        hashMap,type , std::move(keys), hasher, type, generator
+        hashMap, name, std::move(keys), hasher, type, generator
     );
 }

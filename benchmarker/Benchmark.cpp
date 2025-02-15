@@ -3,9 +3,9 @@
 #include <iostream>
 
 
-Benchmark::Benchmark(std::string name, size_t size, size_t replications):
+Benchmark::Benchmark(std::string name, std::vector<size_t> sizes, size_t replications):
 name_(std::move(name)) {
-    tests_.reserve(size);
+    tests_.reserve(sizes.size());
     replications_ = replications;
 }
 
@@ -14,16 +14,16 @@ void Benchmark::addTest(TestBase *test) {
 }
 
 Result* Benchmark::run() {
-    auto* result = new Result(replications_, tests_[0]->getSize());
+    auto* result = new Result(replications_);
     double size = tests_.size() * replications_;
     size_t count = 0;
     for (TestBase* test: tests_) {
-        result->addTest(test->getName(), test->getTypeName(), test->getHasherName(), test->getGeneratorName());
+        result->addTest(test->getName(), test->getTypeName(), test->getHasherName(), test->getGeneratorName(), test->getMapSize());
         for (size_t i = 0; i < replications_; ++i) {
             auto start = std::chrono::high_resolution_clock::now();
             test->execute();
             auto end = std::chrono::high_resolution_clock::now();
-            result->addRecord(test->getName(), std::chrono::duration_cast<nano_t>((end - start) / test->getSize()));
+            result->addRecord(test->getName(), std::chrono::duration_cast<nano_t>((end - start) / test->getMapSize()));
             ++count;
             printProgresBar(count, size);
         }

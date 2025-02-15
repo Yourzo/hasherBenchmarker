@@ -12,11 +12,11 @@ class TestBase {
 public:
     virtual void execute() = 0;
     virtual void execute(bool onGiven) = 0;
-    virtual size_t getSize() = 0;
     virtual std::string getName() = 0;
     virtual std::string getHasherName() = 0;
     virtual std::string getTypeName() = 0;
     virtual std::string getGeneratorName() = 0;
+    virtual size_t getMapSize() = 0;
     virtual ~TestBase() = default;
 };
 
@@ -35,11 +35,12 @@ public:
     std::string getName() override;
     void execute() override;
     void execute(bool onGiven) override;
-    size_t getSize() override;
     ~Test() override;
     std::string getHasherName() override;
     std::string getTypeName() override;
     std::string getGeneratorName() override;
+
+    size_t getMapSize() override;
 };
 
 
@@ -80,11 +81,6 @@ void Test<Map, K, E>::execute(bool onGiven) {
 }
 
 template<typename Map, typename K, typename E>
-size_t Test<Map, K, E>::getSize() {
-    return map_->size();
-}
-
-template<typename Map, typename K, typename E>
 Test<Map, K, E>::~Test() {
     delete map_;
 }
@@ -102,4 +98,9 @@ std::string Test<Map, K, E>::getTypeName() {
 template<typename Map, typename K, typename E>
 std::string Test<Map, K, E>::getGeneratorName() {
     return generatorName_;
+}
+
+template<typename Map, typename K, typename E>
+size_t Test<Map, K, E>::getMapSize() {
+    return map_->size();
 }

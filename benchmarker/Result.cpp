@@ -6,12 +6,11 @@
 #include <sstream>
 #include <utility>
 
-Result::Result(const size_t replications, size_t mapSize)
+Result::Result(const size_t replications)
 {
     measurements_ = new std::map<std::string, std::vector<nano_t>>();
     replications_ = replications;
     testNames_ = new std::vector<std::string>();
-    mapSize_ = mapSize;
 }
 
 void Result::writeToFile() const {
@@ -29,9 +28,9 @@ void Result::writeToFile() const {
 }
 
 void Result::addTest(const std::string &testName, const std::string& keyTypeName,
-                     const std::string& hasherName, const std::string& generatorName) {
+                     const std::string& hasherName, const std::string& generatorName, size_t mapSize) {
     testNames_->push_back(testName);
-    metadata_.emplace(testName, ResultMetadata(generatorName, hasherName, keyTypeName));
+    metadata_.emplace(testName, ResultMetadata(generatorName, hasherName, keyTypeName, mapSize));
 }
 
 void Result::addRecord(const std::string &testName, const nano_t record) {
@@ -66,11 +65,11 @@ void Result::writeJson(const std::string &path) const {
     std::ofstream file(path);
     std::stringstream jsonSteam;
     jsonSteam << "{\"replications\": " << replications_ << "," << std::endl;
-    jsonSteam << "\"map size\": " << mapSize_ << "," << std::endl;
     jsonSteam << " \"hashers\": [" << std::endl;
     for (size_t i = 0; i < testNames_->size(); ++i) {
         jsonSteam << "{\"name\": \"" << testNames_->at(i) <<
-                     "\"," << std::endl << " \"generator\": \"" << metadata_.find(testNames_->at(i))->second.generatorName_ <<
+                     "\"," << std::endl << " \"map size:\": " << metadata_.find(testNames_->at(i))->second.mapSize_ <<
+                     "," << std::endl << " \"generator\": \"" << metadata_.find(testNames_->at(i))->second.generatorName_ <<
                      "\"," << std::endl <<" \"keyType\": \"" << metadata_.find(testNames_->at(i))->second.keyTypeName_ <<
             "\", "<< std::endl << " \"hashType\": \"" << metadata_.find(testNames_->at(i))->second.hasherName_ << "\"}";
         if (i != testNames_->size() - 1) {

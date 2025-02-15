@@ -12,16 +12,17 @@ struct ResultMetadata {
     std::string generatorName_;
     std::string hasherName_;
     std::string keyTypeName_;
+    size_t mapSize_;
 };
 
 class Result{
 public:
-    explicit Result(size_t replications, size_t mapSize);
+    explicit Result(size_t replications);
     void outPutRecs();
     void printAvg();
     void writeToFile() const;
     void addTest(const std::string &testName, const std::string &keyTypeName,
-                 const std::string &hasherName, const std::string &generatorName);
+                 const std::string &hasherName, const std::string &generatorName, size_t mapSize);
     void addRecord(const std::string &testName, nano_t record);
     ~Result();
 
@@ -30,7 +31,6 @@ private:
     std::vector<std::string>* testNames_;
     std::unordered_map<std::string, ResultMetadata> metadata_;
     size_t replications_;
-    size_t mapSize_;
     void writeCsv(const std::string &path) const;
     void writeJson(const std::string &path) const;
     std::string serveData();

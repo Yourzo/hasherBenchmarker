@@ -10,7 +10,7 @@ using nano_t = std::chrono::nanoseconds;
 
 class Benchmark {
 public:
-    Benchmark(std::string name, size_t size, size_t replications);
+    Benchmark(std::string name, std::vector<size_t> sizes, size_t replications);
     void addTest(TestBase *test);
     Result* run();
     ~Benchmark() = default;
