@@ -16,6 +16,7 @@ public:
     ~Benchmark() = default;
 
 private:
+    void printProgresBar(size_t count, double index);
     std::vector<TestBase*> tests_{};
     size_t replications_;//this
     std::string name_;
