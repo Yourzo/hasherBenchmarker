@@ -16,6 +16,7 @@ public:
     virtual std::string getName() = 0;
     virtual std::string getHasherName() = 0;
     virtual std::string getTypeName() = 0;
+    virtual std::string getGeneratorName() = 0;
     virtual ~TestBase() = default;
 };
 
@@ -28,8 +29,9 @@ protected:
     std::string name_;
     std::string hasherName_;
     std::string keyTypeName_;
+    std::string generatorName_;
 public:
-    Test(Map map, std::string name, std::vector<K>&& keys, std::string hasherName, std::string keyTypeName);
+    Test(Map map, std::string name, std::vector<K>&& keys, std::string hasherName, std::string keyTypeName, std::string generatorName);
     std::string getName() override;
     void execute() override;
     void execute(bool onGiven) override;
@@ -37,17 +39,19 @@ public:
     ~Test() override;
     std::string getHasherName() override;
     std::string getTypeName() override;
+    std::string getGeneratorName() override;
 };
 
 
 template<typename Map, typename K, typename E>
 Test<Map, K, E>::Test(Map map, std::string name, std::vector<K> &&keys, std::string hasherName,
-    std::string keyTypeName) {
+    std::string keyTypeName, std::string generatorName) {
     map_ = map;
     name_ = std::move(name);
     keys_ = std::move(keys);
     hasherName_ = std::move(hasherName);
     keyTypeName_ = std::move(keyTypeName);
+    generatorName_ = std::move(generatorName);
 }
 
 template<typename Map, typename K, typename E>
@@ -93,4 +97,9 @@ std::string Test<Map, K, E>::getHasherName() {
 template<typename Map, typename K, typename E>
 std::string Test<Map, K, E>::getTypeName() {
     return keyTypeName_;
+}
+
+template<typename Map, typename K, typename E>
+std::string Test<Map, K, E>::getGeneratorName() {
+    return generatorName_;
 }

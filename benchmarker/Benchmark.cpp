@@ -14,11 +14,11 @@ void Benchmark::addTest(TestBase *test) {
 }
 
 Result* Benchmark::run() {
-    auto* result = new Result(replications_);
+    auto* result = new Result(replications_, tests_[0]->getSize());
     double size = tests_.size() * replications_;
     size_t count = 0;
     for (TestBase* test: tests_) {
-        result->addTest(test->getName(), test->getTypeName(), test->getHasherName());
+        result->addTest(test->getName(), test->getTypeName(), test->getHasherName(), test->getGeneratorName());
         for (size_t i = 0; i < replications_; ++i) {
             auto start = std::chrono::high_resolution_clock::now();
             test->execute();
@@ -44,4 +44,5 @@ void Benchmark::printProgresBar(size_t count, double size) {
     }
     bar.append("] ");
     std::cout << bar << static_cast<int>(progress * 100.0) << " %\r";
+    std::cout.flush();
 }

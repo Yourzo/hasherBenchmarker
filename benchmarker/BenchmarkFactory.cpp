@@ -25,8 +25,9 @@ void BenchmarkFactory::initialize() {
     hashers_["modulo"] = new hash_int2();
     hashers_["rolling hash"] = new rolling_sum_hash();
     hashers_["jenkins hash"] = new jenkins_hash();
-    hashers_["modulo pointer"] = new pointer_modulo();
-    hashers_["shift 4 pointer"] = new pointer_shift();
+    hashers_["modulo pointer 256"] = new pointer_modulo_256();
+    hashers_["shift 4 pointer"] = new pointer_shift_4();
+    hashers_["shift 3 pointer"] = new pointer_shift_3();
 }
 
 TestBase* BenchmarkFactory::createTest(const std::string &type, const std::string &hasher, const size_t size, const std::string& generator) {
@@ -39,6 +40,6 @@ TestBase* BenchmarkFactory::createTest(const std::string &type, const std::strin
         (*hashMap)[keys[i]] = 0;
     }
     return new Test<decltype(hashMap), std::any, int>(
-        hashMap,type , std::move(keys), hasher, type
+        hashMap,type , std::move(keys), hasher, type, generator
     );
 }

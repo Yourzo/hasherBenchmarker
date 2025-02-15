@@ -5,11 +5,11 @@ int main()
 {
     GeneratorFactory::initGens();
     BenchmarkFactory::initialize();
-    std::vector<std::string> types = {"int", "pointer", "long str", "small str"};
-    std::vector<std::string> hasher = {"identity", "modulo pointer", "jenkins hash", "jenkins hash"};
-    std::vector<std::string> gene = {"basic int", "random pointer", "long string", "small string"};
+    std::vector<std::string> types = { "pointer3", "pointer1"};
+    std::vector<std::string> hasher = {"shift 4 pointer", "shift 3 pointer"};
+    std::vector<std::string> gene = {"random pointer", "random pointer"};
 
-    auto bm = BenchmarkFactory::createBenchmark(types, hasher, gene, 10000, 1000);
+    auto bm = BenchmarkFactory::createBenchmark(types, hasher, gene, 10000, 100000);
     auto res = bm->run();
     res->writeToFile();
 }
