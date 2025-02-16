@@ -1,16 +1,38 @@
+#include <fstream>
+
 #include "Generators.hpp"
 #include "BenchmarkFactory.hpp"
+#include "nlohmann/json.hpp"
+
+using json = nlohmann::json;
 
 int main()
 {
+
+    std::ifstream jsonFile("config.json");
+    if (!jsonFile) {
+        std::cout << "no config.json deteted in";
+        std::cout << std::filesystem::current_path() << std::endl;
+        return 1;
+    }
+    json j;
+    jsonFile >> j;
     GeneratorFactory::initGens();
     BenchmarkFactory::initialize();
-    std::vector<std::string> types = { "pointer - 1 000 000", "pointer - 1 000"};
-    std::vector<std::string> hasher = {"shift 4 pointer", "shift 3 pointer"};
-    std::vector<std::string> gene = {"random pointer", "random pointer"};
-    std::vector<size_t> mapSizes = {1000000, 1000};
-
-    auto bm = BenchmarkFactory::createBenchmark(types, hasher, gene, 15, mapSizes);
-    auto res = bm->run();
-    res->writeToFile();
+    size_t replications = j.value("replications", 20);
+    for (const auto& jsonPart: j["benchmarks"]) {
+        std::vector<std::string> types;
+        std::vector<std::string> hasher;
+        std::vector<std::string> gene;
+        std::vector<size_t> mapSizes;
+        for (const auto& benchmark: jsonPart) {
+            types.push_back(benchmark["name"]);
+            hasher.push_back(benchmark["hasher"]);
+            gene.push_back(benchmark["generator"]);
+            mapSizes.push_back(benchmark["map size"]);
+        }
+        auto bm = BenchmarkFactory::createBenchmark(types, hasher, gene, replications, mapSizes);
+        auto res = bm->run();
+        res->writeToFile();
+    }
 }
