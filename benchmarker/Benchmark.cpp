@@ -45,4 +45,7 @@ void Benchmark::printProgresBar(size_t count, double size) {
     bar.append("] ");
     std::cout << bar << static_cast<int>(progress * 100.0) << " %\r";
     std::cout.flush();
+    if (progress == 1) {
+        std::cout << std::endl;
+    }
 }

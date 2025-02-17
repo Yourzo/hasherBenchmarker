@@ -2,9 +2,11 @@
 #include <ctime>
 #include <filesystem>
 #include <fstream>
-#include <iostream>
 #include <sstream>
 #include <utility>
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 Result::Result(const size_t replications)
 {
@@ -62,23 +64,25 @@ void Result::writeCsv(const std::string &path) const {
 }
 
 void Result::writeJson(const std::string &path) const {
-    std::ofstream file(path);
-    std::stringstream jsonSteam;
-    jsonSteam << "{\"replications\": " << replications_ << "," << std::endl;
-    jsonSteam << " \"hashers\": [" << std::endl;
-    for (size_t i = 0; i < testNames_->size(); ++i) {
-        jsonSteam << "{\"name\": \"" << testNames_->at(i) <<
-                     "\"," << std::endl << " \"map size:\": " << metadata_.find(testNames_->at(i))->second.mapSize_ <<
-                     "," << std::endl << " \"generator\": \"" << metadata_.find(testNames_->at(i))->second.generatorName_ <<
-                     "\"," << std::endl <<" \"keyType\": \"" << metadata_.find(testNames_->at(i))->second.keyTypeName_ <<
-            "\", "<< std::endl << " \"hashType\": \"" << metadata_.find(testNames_->at(i))->second.hasherName_ << "\"}";
-        if (i != testNames_->size() - 1) {
-            jsonSteam << ",";
-        }
+    json j;
+    j["replications"] = replications_;
+    j["hashers"] = json::array();
+
+    for (const auto& testName : *testNames_) {
+        const auto&[generatorName_, hasherName_, keyTypeName_, mapSize_] = metadata_.at(testName);
+        j["hashers"].push_back({
+            {"name", testName},
+            {"map size", mapSize_},
+            {"generator", generatorName_},
+            {"keyType", keyTypeName_},
+            {"hashType", hasherName_}
+        });
     }
-    jsonSteam << "] }";
-    file << jsonSteam.str();
-    file.close();
+
+    if (std::ofstream file(path); file.is_open()) {
+        file << j.dump(4);
+        file.close();
+    }
 }
 
 Result::~Result() {
