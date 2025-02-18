@@ -29,10 +29,9 @@ void Result::writeToFile() const {
     writeJson(metadataName);
 }
 
-void Result::addTest(const std::string &testName, const std::string& keyTypeName,
-                     const std::string& hasherName, const std::string& generatorName, size_t mapSize) {
+auto Result::addTest(const std::string &testName, TestDescriptor* testDataPtr) -> void {
     testNames_->push_back(testName);
-    metadata_.emplace(testName, ResultMetadata(generatorName, hasherName, keyTypeName, mapSize));
+    metadata_.emplace(testName, testDataPtr);
 }
 
 void Result::addRecord(const std::string &testName, const nano_t record) {
@@ -69,13 +68,12 @@ void Result::writeJson(const std::string &path) const {
     j["hashers"] = json::array();
 
     for (const auto& testName : *testNames_) {
-        const auto&[generatorName_, hasherName_, keyTypeName_, mapSize_] = metadata_.at(testName);
+        const auto&[name, generatorName, hasherName, mapSize] = *metadata_.at(testName);
         j["hashers"].push_back({
             {"name", testName},
-            {"map size", mapSize_},
-            {"generator", generatorName_},
-            {"keyType", keyTypeName_},
-            {"hashType", hasherName_}
+            {"map size", mapSize},
+            {"generator", generatorName},
+            {"hashType", hasherName}
         });
     }
 

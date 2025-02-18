@@ -1,17 +1,11 @@
 #pragma once
 
-#include <any>
 #include <cstddef>
 #include <string>
 
-#include "hasherUtils.hpp"
 
-struct rolling_sum_hash : public BaseHasher {
-    std::size_t operator()(const std::any& v) const override {
-        if (v.type() != typeid(std::string)) {
-            throw std::bad_any_cast();
-        }
-        const auto s = std::any_cast<std::string>(v);
+struct rolling_sum_hash {
+    std::size_t operator()(const std::string& s) const {
         unsigned int a = 63689;
         unsigned int hash = 0;
         for (size_t i = 0; i < s.length(); i++) {
@@ -21,26 +15,14 @@ struct rolling_sum_hash : public BaseHasher {
         }
         return hash & 0x7FFFFFFF;
     }
-
-    bool equals(const std::any& a, const std::any& b) const override {
-        return std::any_cast<std::string>(a) == std::any_cast<std::string>(b);
-    }
 };
 
-struct jenkins_hash : public BaseHasher { //polynomial rolling hash
-    std::size_t operator()(const std::any& v) const override {
-        if (v.type() != typeid(std::string)) {
-            throw std::bad_any_cast();
-        }
-        const auto s = std::any_cast<std::string>(v);
+struct jenkins_hash { //polynomial rolling hash
+    std::size_t operator()(const std::string& s) const {
         unsigned int hash = 1315423911;
         for (size_t i = 0; i < s.length(); i++) {
             hash ^= (hash << 5) + s[i] + (hash >> 2);
         }
         return hash & 0x7FFFFFFF;
-    }
-
-    bool equals(const std::any& a, const std::any& b) const override {
-        return std::any_cast<std::string>(a) == std::any_cast<std::string>(b);
     }
 };

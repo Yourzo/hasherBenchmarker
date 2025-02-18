@@ -6,40 +6,46 @@
 #include "Generators.hpp"
 #include "Test.hpp"
 
-std::unordered_map<std::string, BaseHasher*> BenchmarkFactory::hashers_;
-
 Benchmark* BenchmarkFactory::createBenchmark(const std::vector<std::string> &types, const std::vector<std::string> &hashers, const std::vector<std::string> &generators,
                                     const size_t replications, const std::vector<size_t> &mapSizes) {
     auto* result = new Benchmark("test", mapSizes, replications);
     for (size_t i = 0; i < types.size(); ++i) {
-        result->addTest(createTest(types[i], types[i], hashers[i], mapSizes[i], generators[i]));
+        TestDescriptor data {
+            .name_ = types[i],
+            .generator_ = generators[i],
+            .hasher_ = hashers[i],
+            .mapSize_ = mapSizes[i]
+        };
+        result->addTest(createTest(data));
     }
     return result;
 }
 
-/**
- * Register your custom hasher here:
- */
-void BenchmarkFactory::initialize() {
-    hashers_["identity"] = new hash_int();
-    hashers_["modulo"] = new hash_int2();
-    hashers_["rolling hash"] = new rolling_sum_hash();
-    hashers_["jenkins hash"] = new jenkins_hash();
-    hashers_["modulo pointer 256"] = new pointer_modulo_256();
-    hashers_["shift 4 pointer"] = new pointer_shift_4();
-    hashers_["shift 3 pointer"] = new pointer_shift_3();
-}
-
-TestBase* BenchmarkFactory::createTest(const std::string &type, const std::string &name, const std::string &hasher, const size_t size, const std::string& generator) {
-    BaseHasher& chosenHasher = *hashers_[hasher];
-    HasherWrapper hasherWrapper(chosenHasher);
-    auto hashMap = new std::unordered_map<std::any, int, HasherWrapper, HasherWrapper>(size, hasherWrapper, hasherWrapper);
-    IGenerator* gen = GeneratorFactory::createGenerator(generator);
-    auto keys = (*gen)(size);
-    for (size_t i = 0; i < size; ++i) {
-        (*hashMap)[keys[i]] = 0;
+TestBase* BenchmarkFactory::createTest(const TestDescriptor &descriptor) {
+    if (descriptor.hasher_ == "identity") {
+        return new Test<std::unordered_map<int, int, hash_int>, int, IntGenerator*>(GeneratorFactory::createGenerator(descriptor.generator_) ,descriptor);
+    } else if (descriptor.hasher_ == "modulo") {
+        return new Test<std::unordered_map<int,int, hash_int2>, int, IntGenerator*>(GeneratorFactory::createGenerator(descriptor.generator_), descriptor);
+    } else if (descriptor.hasher_ == "std::hash int") {
+        return new Test<std::unordered_map<int, int>, int, IntGenerator*>(GeneratorFactory::createGenerator(descriptor.generator_), descriptor);
     }
-    return new Test<decltype(hashMap), std::any, int>(
-        hashMap, name, std::move(keys), hasher, type, generator
-    );
+
+    if (descriptor.hasher_ == "rolling hash") {
+        return new Test<std::unordered_map<std::string, int, rolling_sum_hash>, std::string, StringGenerator*>(GeneratorFactory::createStringGenerator(descriptor.generator_), descriptor);
+    } else if (descriptor.hasher_ == "jenkins hash") {
+        return new Test<std::unordered_map<std::string, int, jenkins_hash>, std::string, StringGenerator*>(GeneratorFactory::createStringGenerator(descriptor.generator_), descriptor);
+    } else if (descriptor.hasher_ == "std::hash string") {
+        return new Test<std::unordered_map<std::string, int>, std::string, StringGenerator*>(GeneratorFactory::createStringGenerator(descriptor.generator_), descriptor);
+    }
+
+    if (descriptor.hasher_ == "modulo pointer 256") {
+        return new Test<std::unordered_map<Dummy*, int, pointer_modulo_256>, Dummy*, PointerGenerator*>(GeneratorFactory::createPointerGenerator(descriptor.generator_), descriptor);
+    } else if (descriptor.hasher_ == "shift 4 pointer") {
+        return new Test<std::unordered_map<Dummy*, int, pointer_shift_base<4>>, Dummy*, PointerGenerator*>(GeneratorFactory::createPointerGenerator(descriptor.generator_), descriptor);
+    } else if (descriptor.hasher_ == "shift 3 pointer") {
+        return new Test<std::unordered_map<Dummy*,int, pointer_shift_base<3>>, Dummy*, PointerGenerator*>(GeneratorFactory::createPointerGenerator(descriptor.generator_), descriptor);
+    } else if (descriptor.hasher_ == "std::hash ptr") {
+        return new Test<std::unordered_map<Dummy*, int>, Dummy*, PointerGenerator*>(GeneratorFactory::createPointerGenerator(descriptor.generator_), descriptor);
+    }
+    throw std::invalid_argument("Hasher: <" + descriptor.hasher_ + "> not recognized");
 }

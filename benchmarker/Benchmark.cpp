@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-Benchmark::Benchmark(std::string name, std::vector<size_t> sizes, size_t replications):
+Benchmark::Benchmark(std::string name, const std::vector<size_t> &sizes, size_t replications):
 name_(std::move(name)) {
     tests_.reserve(sizes.size());
     replications_ = replications;
@@ -15,10 +15,10 @@ void Benchmark::addTest(TestBase *test) {
 
 Result* Benchmark::run() {
     auto* result = new Result(replications_);
-    double size = tests_.size() * replications_;
+    const double size = tests_.size() * replications_;
     size_t count = 0;
     for (TestBase* test: tests_) {
-        result->addTest(test->getName(), test->getTypeName(), test->getHasherName(), test->getGeneratorName(), test->getMapSize());
+        result->addTest(test->getName(), test->getDescriptor());
         for (size_t i = 0; i < replications_; ++i) {
             auto start = std::chrono::high_resolution_clock::now();
             test->execute();
@@ -31,7 +31,7 @@ Result* Benchmark::run() {
     return result;
 }
 
-void Benchmark::printProgresBar(size_t count, double size) {
+void Benchmark::printProgresBar(const size_t count, const double size) {
     double progress = count / size;
     double position = 50 * progress;
     std::string bar ="[";

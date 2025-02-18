@@ -18,7 +18,6 @@ int main()
     json j;
     jsonFile >> j;
     GeneratorFactory::initGens();
-    BenchmarkFactory::initialize();
     size_t replications = j.value("replications", 20);
     for (const auto& jsonPart: j["benchmarks"]) {
         std::vector<std::string> types;
@@ -35,4 +34,5 @@ int main()
         auto res = bm->run();
         res->writeToFile();
     }
+    std::cout << "Results in: " << std::filesystem::current_path().string() + "/results" << std::endl;
 }

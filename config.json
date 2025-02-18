@@ -1,33 +1,44 @@
 {
-  "replications": 40,
-  "benchmarks": [
-    [
-      {
-        "name": "shift 4 - 1 000 000",
-        "hasher": "shift 4 pointer",
-        "generator": "random pointer",
-        "map size": 10000000
-      },
-      {
-        "name": "shift 3 - 1 000 000",
-        "hasher": "shift 3 pointer",
-        "generator": "random pointer",
-        "map size": 10000000
-      }
-    ],
-    [
-      {
-        "name": "int - 100 000",
-        "hasher": "identity",
-        "generator": "basic int",
-        "map size": 100000
-      },
-      {
-        "name": "int - 100 000",
-        "hasher": "modulo",
-        "generator": "basic int",
-        "map size": 100000
-      }
-    ]
-  ]
+    "replications": 40,
+    "benchmarks": [
+            [
+                {
+                    "name": "short str - 1 000 000 rolling hash",
+                    "hasher": "rolling hash",
+                    "generator": "small string",
+                    "map size": 1000000
+                },
+                {
+                    "name": "short str - 1 000 000 jenkins hash",
+                    "hasher": "jenkins hash",
+                    "generator": "small string",
+                    "map size": 1000000
+                },
+                {
+                    "name": "short str - 1 000 000 std::hash",
+                    "hasher": "std::hash string",
+                    "generator": "small string",
+                    "map size": 1000000
+                },
+                {
+                    "name": "long str - 1 000 000 rolling hash",
+                    "hasher": "rolling hash",
+                    "generator": "long string",
+                    "map size": 1000000
+                },
+                {
+                    "name": "long str - 1 000 000 jenkins hash",
+                    "hasher": "jenkins hash",
+                    "generator": "long string",
+                    "map size": 1000000
+                },
+                {
+                    "name": "long str - 1 000 000 std::hash",
+                    "hasher": "std::hash string",
+                    "generator": "long string",
+                    "map size": 1000000
+                }
+ 
+            ]
+        ]
 }
