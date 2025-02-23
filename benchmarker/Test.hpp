@@ -1,13 +1,9 @@
 #pragma once
 
-#include <iostream>
 #include <unordered_map>
 #include <string>
 #include <utility>
 #include <vector>
-
-template<typename K, typename T, typename H>
-using mapT = std::unordered_map<K, T, H>;
 
 struct TestDescriptor {
     std::string name_;

@@ -25,9 +25,15 @@ TestBase* BenchmarkFactory::createTest(const TestDescriptor &descriptor) {
     if (descriptor.hasher_ == "identity") {
         return new Test<std::unordered_map<int, int, hash_int>, int, IntGenerator*>(GeneratorFactory::createGenerator(descriptor.generator_) ,descriptor);
     } else if (descriptor.hasher_ == "modulo") {
-        return new Test<std::unordered_map<int,int, hash_int2>, int, IntGenerator*>(GeneratorFactory::createGenerator(descriptor.generator_), descriptor);
+        return new Test<std::unordered_map<int,int, hash_int2<128>>, int, IntGenerator*>(GeneratorFactory::createGenerator(descriptor.generator_), descriptor);
     } else if (descriptor.hasher_ == "std::hash int") {
         return new Test<std::unordered_map<int, int>, int, IntGenerator*>(GeneratorFactory::createGenerator(descriptor.generator_), descriptor);
+    } else if (descriptor.hasher_ == "jenkins 32 bit") {
+        return new Test<std::unordered_map<int, int, jenkins_32bit>, int, IntGenerator*>(GeneratorFactory::createGenerator(descriptor.generator_), descriptor);
+    } else if (descriptor.hasher_ == "hash 1") {
+        return new Test<std::unordered_map<int, int, hash1>, int, IntGenerator*>(GeneratorFactory::createGenerator(descriptor.generator_), descriptor);
+    } else if (descriptor.hasher_ == "multiplication hash") {
+        return new Test<std::unordered_map<int, int, multiplication_hash>, int, IntGenerator*>(GeneratorFactory::createGenerator(descriptor.generator_), descriptor);
     }
 
     if (descriptor.hasher_ == "rolling hash") {

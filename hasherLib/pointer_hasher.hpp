@@ -6,6 +6,12 @@ struct Dummy {
     char dummyData_[4];
 };
 
+struct pointer_identity {
+    std::size_t operator()(const Dummy* p) const {
+        return reinterpret_cast<std::size_t>(p);
+    }
+};
+
 template<size_t shift>
 struct pointer_shift_base {
     std::size_t operator()(const Dummy* p) const {

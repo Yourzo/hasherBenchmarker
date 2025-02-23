@@ -4,6 +4,8 @@
 #include <string>
 
 
+//most of these are string hashers: https://burtleburtle.net/bob/hash/doobs.html
+
 struct rolling_sum_hash {
     std::size_t operator()(const std::string& s) const {
         unsigned int a = 63689;
