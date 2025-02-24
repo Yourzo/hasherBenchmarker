@@ -34,13 +34,11 @@ public:
     Test(Gen generator, TestDescriptor data);
     std::string getName() override;
     void execute() override;
-    ~Test() override;
     std::string getHasherName() override;
     std::string getGeneratorName() override;
     size_t getMapSize() override;
     TestDescriptor * getDescriptor() override;
 };
-
 
 template<typename Map, typename K, typename Gen>
 Test<Map, K, Gen>::Test(Gen generator, TestDescriptor data) {
@@ -64,10 +62,6 @@ void Test<Map, K, Gen>::execute() {
     for (K key : keys_) {
         map_.contains(key);
     }
-}
-
-template<typename Map, typename K, typename Gen>
-Test<Map, K, Gen>::~Test() {
 }
 
 template<typename Map, typename K, typename Gen>

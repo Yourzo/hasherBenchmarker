@@ -6,9 +6,11 @@ std::unordered_map<std::string, std::function<StringGenerator*()>> GeneratorFact
 
 void GeneratorFactory::initGens() {
 	intGenerators_["basic int"] = []() { return new BasicIntGenerator(); };
+	intGenerators_["normal dist int"] = [](){ return new NormalDistributionIntGenerator<0,250'000>(); };
 
 	stringGenerators_["long string"] = []() { return new LongStringGenerator(); };
 	stringGenerators_["small string"] = []() { return new SmallStringGenerator(); };
+	stringGenerators_["random length string"] = [](){ return new RandomStringGenerator<30>(); };
 
 	pointerGenerators_["packed pointer"] = [](){ return new PackedPointerGenerator(); };
 	pointerGenerators_["random pointer"] = [](){ return new PointerRandomPlaceGenerator(); };

@@ -21,7 +21,6 @@ struct PointerGenerator {
     virtual std::vector<Dummy*>operator()(size_t count) = 0;
 };
 
-//more like packed than ordered
 struct PackedPointerGenerator : public PointerGenerator {
     std::vector<Dummy*> operator()(const size_t count) override {
         std::vector<Dummy*> result;
@@ -41,6 +40,21 @@ struct PointerRandomPlaceGenerator : public PointerGenerator {
         for (size_t i = 0; i < count; ++i) {
             auto val = new Dummy();
             result[i] = val;
+        }
+        return result;
+    }
+};
+
+template<size_t mean, size_t stddev>
+struct NormalDistributionIntGenerator : public IntGenerator {
+    std::vector<int> operator()(size_t count) override {
+        std::vector<int> result;
+        result.resize(count);
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::normal_distribution<int> dist(mean, stddev);
+        for (size_t i = 0; i < count; ++i) {
+            result.push_back(dist(gen));
         }
         return result;
     }
@@ -66,8 +80,34 @@ struct StringGenerator {
     virtual std::vector<std::string> operator()(size_t count) = 0;
 };
 
+/**
+ * @tparam maxLength maximum length of word
+ */
+template<size_t maxLength>
+struct RandomStringGenerator : public StringGenerator {
+    std::vector<std::string> operator()(size_t count) override {
+        std::vector<std::string> result;
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<int> charsDist(48, 122);
+        std::uniform_int_distribution<size_t> length(1, maxLength);
+        for (size_t i = 0; i < count; ++i) {
+            std::string currWord;
+            const size_t wordLen = length(gen);
+            for (size_t j = 0; j < wordLen; ++j) {
+                currWord.push_back(static_cast<char>(charsDist(gen)));
+            }
+        }
+        return result;
+    }
+};
+
+/**
+ * @tparam length length of generated string
+ * characters are generated with ascii values from 48 to 122
+ */
 template<size_t length>
-struct VariableLengthStringGenerator : public StringGenerator {
+struct FixedLengthStringGenerator : public StringGenerator {
     std::vector<std::string> operator()(size_t count) override {
     	std::vector<std::string> result;
         std::random_device rd;
@@ -88,13 +128,11 @@ struct VariableLengthStringGenerator : public StringGenerator {
 * All generated string will have length 16
 * on GCC 15 and less character are stored in std::string object
 * any more than that will get stored in array with pointer to it
-* TODO check with somebody it might be given by system 32 vs 64bit
-* characters are generated with ascii values from 48 to 122
 */
-struct LongStringGenerator : public VariableLengthStringGenerator<16> {
+struct LongStringGenerator : public FixedLengthStringGenerator<16> {
 };
 
-struct SmallStringGenerator : public VariableLengthStringGenerator<14> {
+struct SmallStringGenerator : public FixedLengthStringGenerator<14> {
 };
 
 class GeneratorFactory {
