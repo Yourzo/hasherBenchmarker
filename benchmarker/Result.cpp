@@ -29,7 +29,7 @@ void Result::writeToFile() const {
     writeJson(metadataName);
 }
 
-auto Result::addTest(const std::string &testName, TestDescriptor* testDataPtr) -> void {
+auto Result::addTest(const std::string &testName, TestDescriptor& testDataPtr) -> void {
     testNames_->push_back(testName);
     metadata_.emplace(testName, testDataPtr);
 }
@@ -68,7 +68,7 @@ void Result::writeJson(const std::string &path) const {
     j["hashers"] = json::array();
 
     for (const auto& testName : *testNames_) {
-        const auto&[name, generatorName, hasherName, mapSize] = *metadata_.at(testName);
+        const auto&[name, generatorName, hasherName, mapSize] = metadata_.at(testName);
         j["hashers"].push_back({
             {"name", testName},
             {"map size", mapSize},

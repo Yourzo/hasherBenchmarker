@@ -1,6 +1,5 @@
 #pragma once
 
-#include <unordered_map>
 #include <string>
 #include <utility>
 #include <vector>
@@ -19,7 +18,7 @@ public:
     virtual std::string getHasherName() = 0;
     virtual std::string getGeneratorName() = 0;
     virtual size_t getMapSize() = 0;
-    virtual TestDescriptor* getDescriptor() = 0;
+    virtual TestDescriptor& getDescriptor() = 0;
     virtual ~TestBase() = default;
 };
 
@@ -37,7 +36,7 @@ public:
     std::string getHasherName() override;
     std::string getGeneratorName() override;
     size_t getMapSize() override;
-    TestDescriptor * getDescriptor() override;
+    TestDescriptor& getDescriptor() override;
 };
 
 template<typename Map, typename K, typename Gen>
@@ -80,6 +79,6 @@ size_t Test<Map, K, Gen>::getMapSize() {
 }
 
 template<typename Map, typename K, typename Gen>
-TestDescriptor * Test<Map, K, Gen>::getDescriptor() {
-    return &metadata_;
+TestDescriptor& Test<Map, K, Gen>::getDescriptor() {
+    return metadata_;
 }

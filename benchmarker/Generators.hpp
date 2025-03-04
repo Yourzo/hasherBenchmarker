@@ -20,7 +20,7 @@ struct PointerGenerator {
     virtual ~PointerGenerator() = default;
     virtual std::vector<Dummy*>operator()(size_t count) = 0;
 };
-
+//todo check if there is array to vec method
 struct PackedPointerGenerator : public PointerGenerator {
     std::vector<Dummy*> operator()(const size_t count) override {
         std::vector<Dummy*> result;
@@ -52,7 +52,7 @@ struct NormalDistributionIntGenerator : public IntGenerator {
         result.resize(count);
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::normal_distribution<int> dist(mean, stddev);
+        std::normal_distribution<float> dist(mean, stddev);
         for (size_t i = 0; i < count; ++i) {
             result.push_back(dist(gen));
         }
