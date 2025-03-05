@@ -1,0 +1,21 @@
+@startuml
+abstract class TestBase {
+    +{abstract} void execute()
+    +{abstract} std::string getName()
+    +{abstract} size_t getMapSize()
+    +{abstract} TestDescriptor& getDescriptor()
+}
+
+class Test<Map, K, Gen> {
+    -Map map_
+    -std::vector<K> keys_
+    -TestDescriptor metadata_
+    +Test(Gen generator, TestDescriptor data)
+    +std::string getName()
+    +void execute()
+    +size_t getMapSize()
+    +TestDescriptor& getDescriptor()
+}
+
+TestBase <|-- Test
+@enduml

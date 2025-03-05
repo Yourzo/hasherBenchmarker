@@ -1,0 +1,10 @@
+@startuml
+struct TestDescriptor {
+    + std::string name_
+    + std::string generator_
+    + std::string hasher_
+    + size_t mapSize_
+}
+
+hide methods
+@enduml

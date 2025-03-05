@@ -15,8 +15,6 @@ class TestBase {
 public:
     virtual void execute() = 0;
     virtual std::string getName() = 0;
-    virtual std::string getHasherName() = 0;
-    virtual std::string getGeneratorName() = 0;
     virtual size_t getMapSize() = 0;
     virtual TestDescriptor& getDescriptor() = 0;
     virtual ~TestBase() = default;
@@ -33,8 +31,6 @@ public:
     Test(Gen generator, TestDescriptor data);
     std::string getName() override;
     void execute() override;
-    std::string getHasherName() override;
-    std::string getGeneratorName() override;
     size_t getMapSize() override;
     TestDescriptor& getDescriptor() override;
 };
@@ -61,16 +57,6 @@ void Test<Map, K, Gen>::execute() {
     for (K key : keys_) {
         map_.contains(key);
     }
-}
-
-template<typename Map, typename K, typename Gen>
-std::string Test<Map, K, Gen>::getHasherName() {
-    return metadata_.hasher_;
-}
-
-template<typename Map, typename K, typename Gen>
-std::string Test<Map, K, Gen>::getGeneratorName() {
-    return metadata_.generator_;
 }
 
 template<typename Map, typename K, typename Gen>
