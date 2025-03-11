@@ -8,14 +8,11 @@
 
 using json = nlohmann::json;
 
-Result::Result(const size_t replications)
-{
-    measurements_ = new std::map<std::string, std::vector<nano_t>>();
+Result::Result(const size_t replications) {
     replications_ = replications;
-    testNames_ = new std::vector<std::string>();
 }
 
-void Result::writeToFile() const {
+void Result::writeToFile() {
     const time_t now = std::time(nullptr);
     std::filesystem::path currPath = std::filesystem::current_path();
     create_directories(currPath.append("results"));
@@ -29,31 +26,31 @@ void Result::writeToFile() const {
     writeJson(metadataName);
 }
 
-auto Result::addTest(const std::string &testName, TestDescriptor& testDataPtr) -> void {
-    testNames_->push_back(testName);
+void Result::addTest(const std::string &testName, TestDescriptor &testDataPtr) {
+    testNames_.push_back(testName);
     metadata_.emplace(testName, testDataPtr);
 }
 
 void Result::addRecord(const std::string &testName, const nano_t record) {
-    (*measurements_)[testName].push_back(record);
+    measurements_[testName].push_back(record);
 }
 
-void Result::writeCsv(const std::string &path) const {
+void Result::writeCsv(const std::string &path) {
     std::ofstream file;
     file.open(path);
     file << "replications;";
-    for (size_t i = 0; i < testNames_->size(); ++i) {
-        file << (*testNames_)[i];
-        if (i != testNames_->size() - 1) {
+    for (size_t i = 0; i < testNames_.size(); ++i) {
+        file << testNames_[i];
+        if (i != testNames_.size() - 1) {
             file << ";";
         }
     }
     file << std::endl;
     for (size_t i = 0; i < replications_; ++i) {
         file << i + 1 << ";";
-        for (size_t j = 0; j < testNames_->size(); ++j) {
-            file << (*measurements_)[(*testNames_)[j]][i];
-            if (j != testNames_->size() - 1) {
+        for (size_t j = 0; j < testNames_.size(); ++j) {
+            file << measurements_[testNames_[j]][i];
+            if (j != testNames_.size() - 1) {
                 file << ";";
             }
         }
@@ -67,8 +64,8 @@ void Result::writeJson(const std::string &path) const {
     j["replications"] = replications_;
     j["hashers"] = json::array();
 
-    for (const auto& testName : *testNames_) {
-        const auto&[name, generatorName, hasherName, mapSize] = metadata_.at(testName);
+    for (const auto &testName: testNames_) {
+        const auto &[name, generatorName, hasherName, mapSize] = metadata_.at(testName);
         j["hashers"].push_back({
             {"name", testName},
             {"map size", mapSize},
@@ -81,8 +78,4 @@ void Result::writeJson(const std::string &path) const {
         file << j.dump(4);
         file.close();
     }
-}
-
-Result::~Result() {
-    delete measurements_;
 }

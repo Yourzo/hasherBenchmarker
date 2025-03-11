@@ -1,44 +1,45 @@
-{
+ {
     "replications": 40,
     "benchmarks": [
-            [
-                {
-                    "name": "short str - 1 000 000 rolling hash",
-                    "hasher": "rolling hash",
-                    "generator": "small string",
-                    "map size": 1000000
-                },
-                {
-                    "name": "short str - 1 000 000 jenkins hash",
-                    "hasher": "jenkins hash",
-                    "generator": "small string",
-                    "map size": 1000000
-                },
-                {
-                    "name": "short str - 1 000 000 std::hash",
-                    "hasher": "std::hash string",
-                    "generator": "small string",
-                    "map size": 1000000
-                },
-                {
-                    "name": "long str - 1 000 000 rolling hash",
-                    "hasher": "rolling hash",
-                    "generator": "long string",
-                    "map size": 1000000
-                },
-                {
-                    "name": "long str - 1 000 000 jenkins hash",
-                    "hasher": "jenkins hash",
-                    "generator": "long string",
-                    "map size": 1000000
-                },
-                {
-                    "name": "long str - 1 000 000 std::hash",
-                    "hasher": "std::hash string",
-                    "generator": "long string",
-                    "map size": 1000000
-                }
- 
-            ]
+        [
+            {
+                "name": "short str - 1 000 000 rolling hash",
+                "hasher": "rolling hash",
+                "generator": "small string",
+                "map size": 1000000
+            },
+            {
+                "name": "short str - 1 000 000 jenkins hash",
+                "hasher": "jenkins hash",
+                "generator": "small string",
+                "map size": 1000000
+            },
+            {
+                "name": "short str - 1 000 000 std::hash",
+                "hasher": "std::hash string",
+                "generator": "small string",
+                "map size": 1000000
+            }
+        ],
+        [
+            {
+                "name": "long str - 1 000 000 rolling hash",
+                "hasher": "rolling hash",
+                "generator": "long string",
+                "map size": 1000000
+            },
+            {
+                "name": "long str - 1 000 000 jenkins hash",
+                "hasher": "jenkins hash",
+                "generator": "long string",
+                "map size": 1000000
+            },
+            {
+                "name": "long str - 1 000 000 std::hash",
+                "hasher": "std::hash string",
+                "generator": "long string",
+                "map size": 1000000
+            }
         ]
+    ]
 }

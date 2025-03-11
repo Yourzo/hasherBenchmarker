@@ -20,6 +20,7 @@ Result* Benchmark::run() {
     for (TestBase* test: tests_) {
         result->addTest(test->getName(), test->getDescriptor());
         for (size_t i = 0; i < replications_; ++i) {
+            test->shuffleKeys();
             auto start = std::chrono::high_resolution_clock::now();
             test->execute();
             auto end = std::chrono::high_resolution_clock::now();
