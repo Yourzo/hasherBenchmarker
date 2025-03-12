@@ -2,32 +2,23 @@
 
 #include <iostream>
 
-struct Dummy {
-    char dummyData_[4];
-};
+template<size_t A> //log of alignmet when shifting
+struct alignas(A) Dummy {};
+
+template<typename T>
+struct zero_bit_count;
 
 struct pointer_identity {
-    std::size_t operator()(const Dummy* p) const {
+    template<typename T>
+    std::size_t operator()(const T* p) const {
         return reinterpret_cast<std::size_t>(p);
     }
 };
 
-template<size_t shift>
+template<size_t shift, typename T>
 struct pointer_shift_base {
-    std::size_t operator()(const Dummy* p) const {
+    std::size_t operator()(const T* p) const {
         const auto x = reinterpret_cast<std::size_t>(p);
         return x >> shift;
     }
 };
-
-/**
-* General purpose, for data in vector next to each other I need to create something else
-* modulo 256
-*/
-struct pointer_modulo_256 {
-    std::size_t operator()(const Dummy* p) const {
-        const auto x = reinterpret_cast<std::size_t>(p);
-        return x % 256;
-    }
-};
-

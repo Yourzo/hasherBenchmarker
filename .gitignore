@@ -7,3 +7,4 @@ assets
 theory
 held.cpp
 .json
+.clang-format

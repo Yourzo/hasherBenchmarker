@@ -2,15 +2,11 @@
 #include <ctime>
 #include <filesystem>
 #include <fstream>
-#include <sstream>
-#include <utility>
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
 
-Result::Result(const size_t replications) {
-    replications_ = replications;
-}
+Result::Result(const size_t replications) { replications_ = replications; }
 
 void Result::writeToFile() {
     const time_t now = std::time(nullptr);
@@ -26,16 +22,16 @@ void Result::writeToFile() {
     writeJson(metadataName);
 }
 
-void Result::addTest(const std::string &testName, TestDescriptor &testDataPtr) {
+void Result::addTest(const std::string& testName, TestDescriptor& testDataPtr) {
     testNames_.push_back(testName);
     metadata_.emplace(testName, testDataPtr);
 }
 
-void Result::addRecord(const std::string &testName, const nano_t record) {
+void Result::addRecord(const std::string& testName, const nano_t record) {
     measurements_[testName].push_back(record);
 }
 
-void Result::writeCsv(const std::string &path) {
+void Result::writeCsv(const std::string& path) {
     std::ofstream file;
     file.open(path);
     file << "replications;";
@@ -59,19 +55,18 @@ void Result::writeCsv(const std::string &path) {
     file.close();
 }
 
-void Result::writeJson(const std::string &path) const {
+void Result::writeJson(const std::string& path) const {
     json j;
     j["replications"] = replications_;
     j["hashers"] = json::array();
 
-    for (const auto &testName: testNames_) {
-        const auto &[name, generatorName, hasherName, mapSize] = metadata_.at(testName);
-        j["hashers"].push_back({
-            {"name", testName},
-            {"map size", mapSize},
-            {"generator", generatorName},
-            {"hashType", hasherName}
-        });
+    for (const auto& testName: testNames_) {
+        const auto& [name, generatorName, hasherName, mapSize] =
+                metadata_.at(testName);
+        j["hashers"].push_back({{"name", testName},
+                                {"map size", mapSize},
+                                {"generator", generatorName},
+                                {"hashType", hasherName}});
     }
 
     if (std::ofstream file(path); file.is_open()) {

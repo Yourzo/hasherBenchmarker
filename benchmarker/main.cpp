@@ -1,13 +1,12 @@
 #include <fstream>
 
-#include "Generators.hpp"
 #include "BenchmarkFactory.hpp"
+#include "Generators.hpp"
 #include "nlohmann/json.hpp"
 
 using json = nlohmann::json;
 
-int main()
-{
+int main() {
 
     std::ifstream jsonFile("config.json");
     if (!jsonFile) {
@@ -30,9 +29,12 @@ int main()
             gene.push_back(benchmark["generator"]);
             mapSizes.push_back(benchmark["map size"]);
         }
-        auto bm = BenchmarkFactory::createBenchmark(types, hasher, gene, replications, mapSizes);
+        auto bm = BenchmarkFactory::createBenchmark(types, hasher, gene,
+                                                    replications, mapSizes);
         auto res = bm->run();
         res->writeToFile();
     }
-    std::cout << "Results in: " << std::filesystem::current_path().string() + "/results" << std::endl;
+    std::cout << "Results in: "
+              << std::filesystem::current_path().string() + "/results"
+              << std::endl;
 }

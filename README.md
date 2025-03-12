@@ -18,11 +18,13 @@ It was built as a part of my bachelor's thesis.
 Application can do multiple benchmarks each run.
 Every benchmark produces one result a pair of data and metadata files.
 1. Define how many replications will be executed for each test (these will stay the same across all benchmarks)
+
 ```
 "replications": 40,
 ```
 2. Define `benchmarks` field, (it's field of fields).
 3. In every benchmark define your test for given benchmark.
+
 ```json
 {
     "replications": 40,
@@ -39,14 +41,17 @@ Every benchmark produces one result a pair of data and metadata files.
 <h2>TEST:</h2>
 <h4>NAME:</h4>
 Choose name, this will be used as name of the column in ```result/.data.csv```:
+
 ```json
 "name": "basic int 10 000 jenkins 32 bit"
 ```
 <h4>HASHER:</h4>
 Next hasher has to picked, hasher works as a key type identification too:
+
 ```json
 "hasher": "jenkins 32 bit"
 ```
+
 ```int``` hashers:
 
 | name                                                                                                                                               |
@@ -57,6 +62,7 @@ Next hasher has to picked, hasher works as a key type identification too:
 | [**indentity**](https://github.com/Yourzo/hasherBenchmarker/blob/d55ddf272bdb4322f62118f44df11f8fc195824b/hasherLib/int_hashers.hpp#L59)           |
 | [**modulo**](https://github.com/Yourzo/hasherBenchmarker/blob/d55ddf272bdb4322f62118f44df11f8fc195824b/hasherLib/int_hashers.hpp#L6)               |
 | [**std::hash int**](https://en.cppreference.com/w/cpp/utility/hash)                                                                                                                              |
+
 ```std::string``` hashers:
 
 | name                 |
@@ -74,15 +80,18 @@ pointer hashers:
 | [**std::hash ptr**](https://en.cppreference.com/w/cpp/utility/hash)                                                                                  |
 <h4>Generators</h4>
 In next line key generator is defined, generator type has to match key type. Generators are heavily reliant on [random](https://en.cppreference.com/w/cpp/header/random) from c++ standard library.
+
 ```json
 "generator": "basic int"
 ```
+
 ```int``` generators:
 
 | name                |
 |---------------------|
 | [**basic int**]()   |
 | [**normal dist int**]() |
+
 ```std::string``` generators:
 
 | name                         |
@@ -99,11 +108,14 @@ pointer generators:
 
 <h4>Size of the map</h4>
 Last field requires us to define how many elements are to be in tested map.
+
 ```json
 "mapSize":10000,
 ```
+
 <h3>Config examples:</h3>
 * Config with one test:
+
 ```json
 {
     "replications": 40,
@@ -120,7 +132,8 @@ Last field requires us to define how many elements are to be in tested map.
 ]
 }
 ```
-* Config with two tests, in one benchmark:
+* 
+* Config with two tests, each in one benchmark:
 
 ```json
 {

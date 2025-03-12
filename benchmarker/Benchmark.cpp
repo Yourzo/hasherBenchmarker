@@ -2,16 +2,13 @@
 
 #include <iostream>
 
-
-Benchmark::Benchmark(std::string name, const std::vector<size_t> &sizes, size_t replications):
-name_(std::move(name)) {
+Benchmark::Benchmark(std::string name, const std::vector<size_t>& sizes,
+                     size_t replications) : name_(std::move(name)) {
     tests_.reserve(sizes.size());
     replications_ = replications;
 }
 
-void Benchmark::addTest(TestBase *test) {
-    tests_.push_back(test);
-}
+void Benchmark::addTest(TestBase* test) { tests_.push_back(test); }
 
 Result* Benchmark::run() {
     auto* result = new Result(replications_);
@@ -20,11 +17,13 @@ Result* Benchmark::run() {
     for (TestBase* test: tests_) {
         result->addTest(test->getName(), test->getDescriptor());
         for (size_t i = 0; i < replications_; ++i) {
-            test->shuffleKeys();
+            test->shuffleKeys();//TODO add this as a option
             auto start = std::chrono::high_resolution_clock::now();
             test->execute();
             auto end = std::chrono::high_resolution_clock::now();
-            result->addRecord(test->getName(), std::chrono::duration_cast<nano_t>((end - start) / test->getMapSize()));
+            result->addRecord(test->getName(),
+                              std::chrono::duration_cast<nano_t>(
+                                      (end - start) / test->getMapSize()));
             ++count;
             printProgresBar(count, size);
         }
@@ -35,7 +34,7 @@ Result* Benchmark::run() {
 void Benchmark::printProgresBar(const size_t count, const double size) {
     double progress = count / size;
     double position = 50 * progress;
-    std::string bar ="[";
+    std::string bar = "[";
     for (size_t i = 0; i < 50; ++i) {
         if (i < position) {
             bar.append("=");
