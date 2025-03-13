@@ -18,6 +18,7 @@ int main() {
     jsonFile >> j;
     GeneratorFactory::initGens();
     size_t replications = j.value("replications", 20);
+    bool shuffle = j.value("shuffle", false);
     for (const auto& jsonPart: j["benchmarks"]) {
         std::vector<std::string> types;
         std::vector<std::string> hasher;
@@ -30,7 +31,7 @@ int main() {
             mapSizes.push_back(benchmark["map size"]);
         }
         auto bm = BenchmarkFactory::createBenchmark(types, hasher, gene,
-                                                    replications, mapSizes);
+                                                    replications, mapSizes, shuffle);
         auto res = bm->run();
         res->writeToFile();
     }

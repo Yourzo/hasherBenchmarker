@@ -3,9 +3,10 @@
 #include <iostream>
 
 Benchmark::Benchmark(std::string name, const std::vector<size_t>& sizes,
-                     size_t replications) : name_(std::move(name)) {
+                     size_t replications, bool shuffle) : name_(std::move(name)) {
     tests_.reserve(sizes.size());
     replications_ = replications;
+    shuffle_ = shuffle;
 }
 
 void Benchmark::addTest(TestBase* test) { tests_.push_back(test); }
@@ -17,7 +18,9 @@ Result* Benchmark::run() {
     for (TestBase* test: tests_) {
         result->addTest(test->getName(), test->getDescriptor());
         for (size_t i = 0; i < replications_; ++i) {
-            test->shuffleKeys();//TODO add this as a option
+            if (shuffle_) {
+                test->shuffleKeys();
+            }
             auto start = std::chrono::high_resolution_clock::now();
             test->execute();
             auto end = std::chrono::high_resolution_clock::now();

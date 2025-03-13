@@ -11,8 +11,9 @@ BenchmarkFactory::createBenchmark(const std::vector<std::string>& types,
                                   const std::vector<std::string>& hashers,
                                   const std::vector<std::string>& generators,
                                   const size_t replications,
-                                  const std::vector<size_t>& mapSizes) {
-    auto* result = new Benchmark("test", mapSizes, replications);
+                                  const std::vector<size_t>& mapSizes,
+                                  const bool shuffle) {
+    auto* result = new Benchmark("test", mapSizes, replications, shuffle);
     for (size_t i = 0; i < types.size(); ++i) {
         TestDescriptor data{.name_ = types[i],
                             .generator_ = generators[i],
