@@ -47,6 +47,7 @@ Test<Map, K, Gen>::Test(Gen generator, TestDescriptor data) {
         map_[keys_[i]] = 0;
     }
     metadata_ = std::move(data);
+    delete generator;
 }
 
 template<typename Map, typename K, typename Gen>

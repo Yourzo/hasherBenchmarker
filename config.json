@@ -1,5 +1,6 @@
 {
     "replications": 40,
+    "shuffle": true,
     "benchmarks": [
         [
             {

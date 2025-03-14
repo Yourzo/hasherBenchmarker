@@ -28,3 +28,23 @@ struct jenkins_hash { //polynomial rolling hash
         return hash & 0x7FFFFFFF;
     }
 };
+
+struct djb2 {
+    std::size_t operator()(const std::string& s) const {
+        std::size_t hash = 5318;
+        for (const char c : s) {
+            hash = ((hash << 5) + hash) + c;
+        }
+        return hash;
+    }
+};
+
+struct sdbm {
+    std::size_t operator()(const std::string& s) const {
+        std::size_t hash = 0;
+        for (const char c : s) {
+            hash = c + (hash << 6) + (hash << 16) - hash;
+        }
+        return hash;
+    }
+};

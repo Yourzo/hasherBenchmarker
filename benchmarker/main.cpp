@@ -34,6 +34,8 @@ int main() {
                                                     replications, mapSizes, shuffle);
         auto res = bm->run();
         res->writeToFile();
+        delete bm;
+        delete res;
     }
     std::cout << "Results in: "
               << std::filesystem::current_path().string() + "/results"

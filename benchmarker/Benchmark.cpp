@@ -34,6 +34,12 @@ Result* Benchmark::run() {
     return result;
 }
 
+Benchmark::~Benchmark() {
+    for (TestBase* test : tests_) {
+        delete test;
+    }
+}
+
 void Benchmark::printProgresBar(const size_t count, const double size) {
     double progress = count / size;
     double position = 50 * progress;

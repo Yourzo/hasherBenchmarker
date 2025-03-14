@@ -61,10 +61,3 @@ struct hash_int {
         return x;
     }
 };
-
-template<size_t mod>
-struct hash_int2 {
-    std::size_t operator()(const int& x) const {
-       return x % mod;
-    }
-};

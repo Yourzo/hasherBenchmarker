@@ -14,7 +14,7 @@ class Benchmark {
                   size_t replications, bool shuffle);
         void addTest(TestBase* test);
         Result* run();
-        ~Benchmark() = default;
+        ~Benchmark();
 
     private:
         void printProgresBar(size_t count, double index);

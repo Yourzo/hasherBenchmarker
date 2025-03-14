@@ -30,11 +30,6 @@ TestBase* BenchmarkFactory::createTest(const TestDescriptor& descriptor) {
                         IntGenerator*>(
                 GeneratorFactory::createGenerator(descriptor.generator_),
                 descriptor);
-    } else if (descriptor.hasher_ == "modulo") {
-        return new Test<std::unordered_map<int, int, hash_int2<128>>, int,
-                        IntGenerator*>(
-                GeneratorFactory::createGenerator(descriptor.generator_),
-                descriptor);
     } else if (descriptor.hasher_ == "std::hash int") {
         return new Test<std::unordered_map<int, int>, int, IntGenerator*>(
                 GeneratorFactory::createGenerator(descriptor.generator_),
@@ -71,6 +66,12 @@ TestBase* BenchmarkFactory::createTest(const TestDescriptor& descriptor) {
                         StringGenerator*>(
                 GeneratorFactory::createStringGenerator(descriptor.generator_),
                 descriptor);
+    } else if (descriptor.hasher_ == "djb2") {
+        return new Test<std::unordered_map<std::string, int>, std::string,
+        StringGenerator*>(GeneratorFactory::createStringGenerator(descriptor.generator_),
+            descriptor);
+    } else if (descriptor.hasher_ == "sdbm") {
+        return new Test<std::unordered_map<std::string, int>, std::string, StringGenerator*>(GeneratorFactory::createStringGenerator(descriptor.generator_), descriptor);
     }
 
     if (descriptor.hasher_ == "shift 4 pointer align 16") {
@@ -98,6 +99,19 @@ TestBase* BenchmarkFactory::createTest(const TestDescriptor& descriptor) {
 
         return new Test<std::unordered_map<Dummy<4>*, int>, Dummy<4>*,
                         PointerGenerator<Dummy<4>>*>(generator, descriptor);
+    } else if (descriptor.hasher_ == "murmur2") {
+        auto generator = reinterpret_cast<PointerGenerator<Dummy<4>>*>(
+            GeneratorFactory::createPointerGenerator(
+                descriptor.generator_));
+
+        return new Test<std::unordered_map<Dummy<4>*, int, murmur2<Dummy<4>>>, Dummy<4>*,
+        PointerGenerator<Dummy<4>>*>(generator, descriptor);
+    } else if (descriptor.hasher_ == "murmur3") {
+        auto generator = reinterpret_cast<PointerGenerator<Dummy<4>>*>(
+            GeneratorFactory::createPointerGenerator(
+                descriptor.generator_));
+        return new Test<std::unordered_map<Dummy<4>*, int, murmur3<Dummy<4>>>, Dummy<4>*,
+        PointerGenerator<Dummy<4>>*>(generator, descriptor);
     }
     throw std::invalid_argument("Hasher: <" + descriptor.hasher_ +
                                 "> not recognized");
