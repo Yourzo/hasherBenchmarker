@@ -30,8 +30,8 @@ int main() {
             gene.push_back(benchmark["generator"]);
             mapSizes.push_back(benchmark["map size"]);
         }
-        auto bm = BenchmarkFactory::createBenchmark(types, hasher, gene,
-                                                    replications, mapSizes, shuffle);
+        auto bm = BenchmarkFactory::createBenchmark(
+                types, hasher, gene, replications, mapSizes, shuffle);
         auto res = bm->run();
         res->writeToFile();
         delete bm;

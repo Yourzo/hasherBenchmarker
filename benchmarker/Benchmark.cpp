@@ -3,7 +3,8 @@
 #include <iostream>
 
 Benchmark::Benchmark(std::string name, const std::vector<size_t>& sizes,
-                     size_t replications, bool shuffle) : name_(std::move(name)) {
+                     size_t replications, bool shuffle) :
+    name_(std::move(name)) {
     tests_.reserve(sizes.size());
     replications_ = replications;
     shuffle_ = shuffle;
@@ -35,7 +36,7 @@ Result* Benchmark::run() {
 }
 
 Benchmark::~Benchmark() {
-    for (TestBase* test : tests_) {
+    for (TestBase* test: tests_) {
         delete test;
     }
 }

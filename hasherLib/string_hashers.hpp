@@ -33,7 +33,7 @@ struct djb2 {
     std::size_t operator()(const std::string& s) const {
         std::size_t hash = 5318;
         for (const char c : s) {
-            hash = ((hash << 5) + hash) + c;
+            hash = (hash << 5) + hash + c;
         }
         return hash;
     }

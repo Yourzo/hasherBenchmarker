@@ -1,0 +1,43 @@
+{
+    "replications": 40,
+    "benchmarks": [
+        [
+            {
+                "name": "packed - 1 000 000 shift 4 pointer align 16",
+                "hasher": "shift 4 pointer align 16",
+                "generator": "packed pointer align 16",
+                "map size": 1000000
+            },
+            {
+                "name": "packed - 1 000 000 shift 3 pointer align 8",
+                "hasher": "shift 3 pointer align 8",
+                "generator": "packed pointer align 8",
+                "map size": 1000000
+            },
+            {
+                "name": "packed - 1 000 000 shift 5 pointer align 32",
+                "hasher": "shift 5 pointer align 32",
+                "generator": "packed pointer align 32",
+                "map size": 1000000
+            },
+            {
+                "name": "packed - 1 000 000 std::hash ptr",
+                "hasher": "std::hash ptr",
+                "generator": "packed pointer align 4",
+                "map size": 1000000
+            },
+            {
+                "name": "packed - 1 000 000 murmur2",
+                "hasher": "murmur2",
+                "generator": "packed pointer align 4",
+                "map size": 1000000
+            },
+            {
+                "name": "packed - 1 000 000 murmur3",
+                "hasher": "murmur3",
+                "generator": "packed pointer align 4",
+                "map size": 1000000
+            }
+        ]
+    ]
+}

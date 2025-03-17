@@ -65,13 +65,15 @@ struct NormalDistributionIntGenerator : public IntGenerator {
         }
 };
 
+
+template<size_t min, size_t max>
 struct BasicIntGenerator : public IntGenerator {
         std::vector<int> operator()(size_t count) override {
             std::vector<int> result;
             result.resize(count);
             std::random_device rd;
             std::mt19937 gen(rd());
-            std::uniform_int_distribution<int> dist(INT_MIN, INT_MAX);
+            std::uniform_int_distribution<int> dist(min, max);
             for (size_t i = 0; i < count; ++i) {
                 result[i] = dist(gen);
             }

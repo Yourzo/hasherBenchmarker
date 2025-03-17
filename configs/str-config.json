@@ -19,6 +19,18 @@
                 "hasher": "std::hash string",
                 "generator": "small string",
                 "map size": 1000000
+            },
+            {
+                "name": "short str - 1 000 000 djb2",
+                "hasher": "djb2",
+                "generator": "small string",
+                "map size": 1000000
+            },
+            {
+                "name": "short str - 1 000 000 sdbm",
+                "hasher": "sdbm",
+                "generator": "small string",
+                "map size": 1000000
             }
         ],
         [
@@ -39,6 +51,18 @@
                 "hasher": "std::hash string",
                 "generator": "long string",
                 "map size": 1000000
+            },
+            {
+                "name": "long str - 1 000 000 djb2",
+                "hasher": "djb2",
+                "generator": "long string",
+                "map string": 1000000
+            },
+            {
+                "name": "long str - 1 000 000 sdbm",
+                "hasher": "sdbm",
+                "generator": "long string",
+                "map string": 1000000
             }
         ]
     ]
