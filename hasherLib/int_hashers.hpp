@@ -1,14 +1,14 @@
 #pragma once
 
 #include <cstddef>
-#include <any>
 #include <iostream>
+
+#include "general_purpose_hashers.hpp"
 
 //https://burtleburtle.net/bob/hash/doobs.html this might be great source for me
 
 /**
  * https://burtleburtle.net/bob/hash/integer.html
- * size_t casting might be problem
  */
 struct hash1 {
     std::size_t operator()(const int& x) const {
@@ -24,7 +24,6 @@ struct hash1 {
 
 /**
  * https://gist.github.com/badboy/6267743#robert-jenkins-32-bit-integer-hash-function
- * size_t might be problem when casting to int
  */
 struct jenkins_32bit {
     std::size_t operator()(const int& x) const {
@@ -56,8 +55,22 @@ struct multiplication_hash {
     }
 };
 
-struct hash_int {
+struct identity_int {
     std::size_t operator()(const int& x) const {
         return x;
+    }
+};
+
+struct murmur2_int {
+    const Murmur2Hash64A multipurpose_ = Murmur2Hash64A();
+    std::size_t operator()(const int& x) const {
+        return multipurpose_(&x, sizeof(x), 0x9747b28c);
+    }
+};
+
+struct murmur3_int {
+    const Murmur3Hash64 multipurpose_ = Murmur3Hash64();
+    std::size_t operator()(const int& x) const {
+        return multipurpose_(&x, sizeof(x), 12346578);
     }
 };

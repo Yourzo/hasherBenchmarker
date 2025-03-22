@@ -28,13 +28,13 @@
             },
             {
                 "name": "packed - 1 000 000 murmur2",
-                "hasher": "murmur2",
+                "hasher": "murmur2_ptr",
                 "generator": "packed pointer align 4",
                 "map size": 1000000
             },
             {
                 "name": "packed - 1 000 000 murmur3",
-                "hasher": "murmur3",
+                "hasher": "murmur3_ptr",
                 "generator": "packed pointer align 4",
                 "map size": 1000000
             }

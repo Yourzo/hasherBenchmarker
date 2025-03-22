@@ -8,3 +8,5 @@ theory
 held.cpp
 .json
 .clang-format
+Release
+MinSizeRel

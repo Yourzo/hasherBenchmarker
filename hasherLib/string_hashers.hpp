@@ -48,3 +48,17 @@ struct sdbm {
         return hash;
     }
 };
+
+struct murmur2_string {
+    const Murmur2Hash64A multipurpose_ = Murmur2Hash64A();
+    std::size_t operator()(const std::string& s) const {
+        return multipurpose_(&s, s.size(), 0x9747b28c);
+    }
+};
+
+struct murmur3_string {
+    const Murmur3Hash64 multipurpose = Murmur3Hash64();
+    std::size_t operator()(const std::string& s) const {
+        return multipurpose(&s, s.size(), 12346578);
+    }
+};

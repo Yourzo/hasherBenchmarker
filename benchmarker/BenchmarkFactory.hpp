@@ -13,4 +13,5 @@ class BenchmarkFactory {
 
     private:
         static TestBase* createTest(const TestDescriptor& descriptor);
+        static void load(size_t done, size_t count);
 };

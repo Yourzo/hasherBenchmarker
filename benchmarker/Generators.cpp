@@ -9,13 +9,10 @@ std::unordered_map<std::string, std::function<StringGenerator*()>>
 
 void GeneratorFactory::initGens() {
     intGenerators_["basic int"] = []() {
-        return new BasicIntGenerator<INT_MIN, INT_MAX>();
-    };
-    intGenerators_["normal dist int"] = []() {
-        return new NormalDistributionIntGenerator<0, 250'000>();
+        return new FullInt();
     };
     intGenerators_["positive int"] = []() {
-        return new BasicIntGenerator<0, INT_MAX>();
+        return new PositiveInt();
     };
 
     stringGenerators_["long string"] = []() {

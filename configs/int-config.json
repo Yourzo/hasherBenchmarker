@@ -31,6 +31,18 @@
                 "hasher": "multiplication hash",
                 "generator": "basic int",
                 "map size": 1000000
+            },
+            {
+                "name": "basic int - 1 000 000 murmur2",
+                "hasher": "murmur2_int",
+                "generator": "basic int",
+                "map size": 1000000
+            },
+            {
+                "name": "basic int - 1 000 000 murmur3",
+                "hasher": "murmur3_int",
+                "generator": "basic int",
+                "map size": 1000000
             }
         ],
         [
@@ -61,6 +73,18 @@
             {
                 "name": "basic int - 1 000 000 multiplication",
                 "hasher": "multiplication hash",
+                "generator": "positive int",
+                "map size": 1000000
+            },
+            {
+                "name": "basic int - 1 000 000 murmur2",
+                "hasher": "murmur2_int",
+                "generator": "positive int",
+                "map size": 1000000
+            },
+            {
+                "name": "basic int - 1 000 000 murmur3",
+                "hasher": "murmur3_int",
                 "generator": "positive int",
                 "map size": 1000000
             }

@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <unordered_map>
 #include <vector>
+#include <limits>
 
 #include "../hasherLib/pointer_hasher.hpp"
 #include "BenchmarkFactory.hpp"
@@ -50,23 +51,7 @@ struct PointerRandomPlaceGenerator : public PointerGenerator<T> {
         }
 };
 
-template<size_t mean, size_t stddev>
-struct NormalDistributionIntGenerator : public IntGenerator {
-        std::vector<int> operator()(size_t count) override {
-            std::vector<int> result;
-            result.resize(count);
-            std::random_device rd;
-            std::mt19937 gen(rd());
-            std::normal_distribution<float> dist(mean, stddev);
-            for (size_t i = 0; i < count; ++i) {
-                result.push_back(dist(gen));
-            }
-            return result;
-        }
-};
-
-
-template<size_t min, size_t max>
+template<int min, int max>
 struct BasicIntGenerator : public IntGenerator {
         std::vector<int> operator()(size_t count) override {
             std::vector<int> result;
@@ -80,6 +65,10 @@ struct BasicIntGenerator : public IntGenerator {
             return result;
         }
 };
+
+struct FullInt : public BasicIntGenerator<std::numeric_limits<int>::min(), std::numeric_limits<int>::max()> {};
+
+struct PositiveInt : public BasicIntGenerator<1, std::numeric_limits<int>::max()> {};
 
 struct StringGenerator {
         virtual ~StringGenerator() = default;

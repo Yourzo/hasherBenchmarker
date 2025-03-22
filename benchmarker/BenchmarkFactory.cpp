@@ -13,6 +13,7 @@ Benchmark* BenchmarkFactory::createBenchmark(
         const std::vector<size_t>& mapSizes, const bool shuffle) {
     auto* result = new Benchmark("test", mapSizes, replications, shuffle);
     for (size_t i = 0; i < types.size(); ++i) {
+        load(i + 1, types.size());
         TestDescriptor data{.name_ = types[i],
                             .generator_ = generators[i],
                             .hasher_ = hashers[i],
@@ -24,7 +25,7 @@ Benchmark* BenchmarkFactory::createBenchmark(
 
 TestBase* BenchmarkFactory::createTest(const TestDescriptor& descriptor) {
     if (descriptor.hasher_ == "identity") {
-        return new Test<std::unordered_map<int, int, hash_int>, int,
+        return new Test<std::unordered_map<int, int, identity_int>, int,
                         IntGenerator*>(
                 GeneratorFactory::createGenerator(descriptor.generator_),
                 descriptor);
@@ -44,6 +45,16 @@ TestBase* BenchmarkFactory::createTest(const TestDescriptor& descriptor) {
                 descriptor);
     } else if (descriptor.hasher_ == "multiplication hash") {
         return new Test<std::unordered_map<int, int, multiplication_hash>, int,
+                        IntGenerator*>(
+                GeneratorFactory::createGenerator(descriptor.generator_),
+                descriptor);
+    } else if (descriptor.hasher_ == "murmur2_int") {
+        return new Test<std::unordered_map<int, int, murmur2_int>, int,
+                        IntGenerator*>(
+                GeneratorFactory::createGenerator(descriptor.generator_),
+                descriptor);
+    } else if (descriptor.hasher_ == "murmur3_int") {
+        return new Test<std::unordered_map<int, int, murmur3_int>, int,
                         IntGenerator*>(
                 GeneratorFactory::createGenerator(descriptor.generator_),
                 descriptor);
@@ -71,6 +82,16 @@ TestBase* BenchmarkFactory::createTest(const TestDescriptor& descriptor) {
                 descriptor);
     } else if (descriptor.hasher_ == "sdbm") {
         return new Test<std::unordered_map<std::string, int>, std::string,
+                        StringGenerator*>(
+                GeneratorFactory::createStringGenerator(descriptor.generator_),
+                descriptor);
+    } else if (descriptor.hasher_ == "murmur2_str") {
+        return new Test<std::unordered_map<std::string, int, murmur2_string>, std::string,
+                        StringGenerator*>(
+                GeneratorFactory::createStringGenerator(descriptor.generator_),
+                descriptor);
+    } else if (descriptor.hasher_ == "murmur3_str") {
+        return new Test<std::unordered_map<std::string, int, murmur3_string>, std::string,
                         StringGenerator*>(
                 GeneratorFactory::createStringGenerator(descriptor.generator_),
                 descriptor);
@@ -109,22 +130,29 @@ TestBase* BenchmarkFactory::createTest(const TestDescriptor& descriptor) {
 
         return new Test<std::unordered_map<Dummy<4>*, int>, Dummy<4>*,
                         PointerGenerator<Dummy<4>>*>(generator, descriptor);
-    } else if (descriptor.hasher_ == "murmur2") {
+    } else if (descriptor.hasher_ == "murmur2_ptr") {
         auto generator = reinterpret_cast<PointerGenerator<Dummy<4>>*>(
                 GeneratorFactory::createPointerGenerator(
                         descriptor.generator_));
 
-        return new Test<std::unordered_map<Dummy<4>*, int, murmur2<Dummy<4>>>,
+        return new Test<std::unordered_map<Dummy<4>*, int, murmur2_ptr<Dummy<4>>>,
                         Dummy<4>*, PointerGenerator<Dummy<4>>*>(generator,
                                                                 descriptor);
-    } else if (descriptor.hasher_ == "murmur3") {
+    } else if (descriptor.hasher_ == "murmur3_ptr") {
         auto generator = reinterpret_cast<PointerGenerator<Dummy<4>>*>(
                 GeneratorFactory::createPointerGenerator(
                         descriptor.generator_));
-        return new Test<std::unordered_map<Dummy<4>*, int, murmur3<Dummy<4>>>,
+        return new Test<std::unordered_map<Dummy<4>*, int, murmur3_ptr<Dummy<4>>>,
                         Dummy<4>*, PointerGenerator<Dummy<4>>*>(generator,
                                                                 descriptor);
     }
     throw std::invalid_argument("Hasher: <" + descriptor.hasher_ +
                                 "> not recognized");
+}
+
+void BenchmarkFactory::load(const size_t done, const size_t count) {
+    std::cout << "Building benchmark: " << done << "/" << count << "\r";
+    std::cout.flush();
+    if (done == count)
+        std::cout << std::endl;
 }

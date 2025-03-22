@@ -31,6 +31,18 @@
                 "hasher": "sdbm",
                 "generator": "small string",
                 "map size": 1000000
+            },
+            {
+                "name": "short str - 1 000 000 murmur2",
+                "hasher": "murmur2_str",
+                "generator": "small string",
+                "map size": 1000000
+            },
+            {
+                "name": "short str - 1 000 000 murmur3",
+                "hasher": "murmur3_str",
+                "generator": "small string",
+                "map size": 1000000
             }
         ],
         [
@@ -61,6 +73,18 @@
             {
                 "name": "long str - 1 000 000 sdbm",
                 "hasher": "sdbm",
+                "generator": "long string",
+                "map string": 1000000
+            },
+            {
+                "name": "long str - 1 000 000 murmur2",
+                "hasher": "murmur2_str",
+                "generator": "long string",
+                "map string": 1000000
+            },
+            {
+                "name": "long str - 1 000 000 murmur3",
+                "hasher": "murmur3_str",
                 "generator": "long string",
                 "map string": 1000000
             }
