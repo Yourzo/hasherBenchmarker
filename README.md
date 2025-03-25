@@ -89,7 +89,7 @@ pointer hashers:
 | [**std::hash ptr**](https://en.cppreference.com/w/cpp/utility/hash)                                                                                        |
 
 <h4>Generators</h4>
-In next line key generator is defined, generator type has to match key type. Generators are heavily reliant on [random](https://en.cppreference.com/w/cpp/header/random) from c++ standard library.
+In next line key generator is defined, generator type has to match key type. Generators are heavily reliant on [**random**](https://en.cppreference.com/w/cpp/header/random) from c++ standard library.
 
 ```json
 "generator": "basic int"

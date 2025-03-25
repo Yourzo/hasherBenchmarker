@@ -117,33 +117,33 @@ TestBase* BenchmarkFactory::createTest(const TestDescriptor& descriptor) {
                                                                 descriptor);
     } else if (descriptor.hasher_ == "shift 5 pointer align 32") {
         auto generator = reinterpret_cast<PointerGenerator<Dummy<32>>*>(
-                GeneratorFactory::createGenerator(descriptor.generator_));
+                GeneratorFactory::createPointerGenerator(descriptor.generator_));
 
         return new Test<std::unordered_map<Dummy<32>*, int,
                                            pointer_shift_base<5, Dummy<32>>>,
                         Dummy<32>*, PointerGenerator<Dummy<32>>*>(generator,
                                                                   descriptor);
     } else if (descriptor.hasher_ == "std::hash ptr") {
-        auto generator = reinterpret_cast<PointerGenerator<Dummy<4>>*>(
+        auto generator = reinterpret_cast<PointerGenerator<Dummy<8>>*>(
                 GeneratorFactory::createPointerGenerator(
                         descriptor.generator_));
 
-        return new Test<std::unordered_map<Dummy<4>*, int>, Dummy<4>*,
-                        PointerGenerator<Dummy<4>>*>(generator, descriptor);
+        return new Test<std::unordered_map<Dummy<8>*, int>, Dummy<8>*,
+                        PointerGenerator<Dummy<8>>*>(generator, descriptor);
     } else if (descriptor.hasher_ == "murmur2_ptr") {
-        auto generator = reinterpret_cast<PointerGenerator<Dummy<4>>*>(
+        auto generator = reinterpret_cast<PointerGenerator<Dummy<8>>*>(
                 GeneratorFactory::createPointerGenerator(
                         descriptor.generator_));
 
-        return new Test<std::unordered_map<Dummy<4>*, int, murmur2_ptr<Dummy<4>>>,
-                        Dummy<4>*, PointerGenerator<Dummy<4>>*>(generator,
+        return new Test<std::unordered_map<Dummy<8>*, int, murmur2_ptr<Dummy<8>>>,
+                        Dummy<8>*, PointerGenerator<Dummy<8>>*>(generator,
                                                                 descriptor);
     } else if (descriptor.hasher_ == "murmur3_ptr") {
-        auto generator = reinterpret_cast<PointerGenerator<Dummy<4>>*>(
+        auto generator = reinterpret_cast<PointerGenerator<Dummy<8>>*>(
                 GeneratorFactory::createPointerGenerator(
                         descriptor.generator_));
-        return new Test<std::unordered_map<Dummy<4>*, int, murmur3_ptr<Dummy<4>>>,
-                        Dummy<4>*, PointerGenerator<Dummy<4>>*>(generator,
+        return new Test<std::unordered_map<Dummy<8>*, int, murmur3_ptr<Dummy<8>>>,
+                        Dummy<8>*, PointerGenerator<Dummy<8>>*>(generator,
                                                                 descriptor);
     }
     throw std::invalid_argument("Hasher: <" + descriptor.hasher_ +

@@ -23,19 +23,57 @@
             {
                 "name": "packed - 1 000 000 std::hash ptr",
                 "hasher": "std::hash ptr",
-                "generator": "packed pointer align 4",
+                "generator": "packed pointer align 8",
                 "map size": 1000000
             },
             {
                 "name": "packed - 1 000 000 murmur2",
                 "hasher": "murmur2_ptr",
-                "generator": "packed pointer align 4",
+                "generator": "packed pointer align 8",
                 "map size": 1000000
             },
             {
                 "name": "packed - 1 000 000 murmur3",
                 "hasher": "murmur3_ptr",
-                "generator": "packed pointer align 4",
+                "generator": "packed pointer align 8",
+                "map size": 1000000
+            }
+        ],
+        [
+            {
+                "name": "packed - 1 000 000 shift 4 pointer align 16",
+                "hasher": "shift 4 pointer align 16",
+                "generator": "random pointer align 16",
+                "map size": 1000000
+            },
+            {
+                "name": "packed - 1 000 000 shift 3 pointer align 8",
+                "hasher": "shift 3 pointer align 8",
+                "generator": "random pointer align 8",
+                "map size": 1000000
+            },
+            {
+                "name": "packed - 1 000 000 shift 5 pointer align 32",
+                "hasher": "shift 5 pointer align 32",
+                "generator": "random pointer align 32",
+                "map size": 1000000
+            },
+            {
+                "name": "packed - 1 000 000 std::hash ptr",
+                "hasher": "std::hash ptr",
+                "generator": "random pointer align 8",
+                "map size": 1000000
+            },
+            {
+                "name": "packed - 1 000 000 murmur2",
+                "hasher": "murmur2_ptr",
+                "generator": "random pointer align 8",
+                "map size": 1000000
+            },
+            {
+                "name": "packed - 1 000 000 murmur3",
+                "hasher": "murmur3_ptr",
+                "generator": "random pointer align 8",
                 "map size": 1000000
             }
         ]
