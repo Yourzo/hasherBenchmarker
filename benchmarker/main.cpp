@@ -1,5 +1,4 @@
 #include <fstream>
-
 #include "BenchmarkFactory.hpp"
 #include "Generators.hpp"
 #include "nlohmann/json.hpp"

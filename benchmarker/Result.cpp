@@ -1,4 +1,5 @@
 #include "Result.hpp"
+
 #include <ctime>
 #include <filesystem>
 #include <fstream>
