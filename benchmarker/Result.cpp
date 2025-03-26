@@ -17,6 +17,7 @@ void Result::writeToFile() {
     dataName /= (std::to_string(now) + ".data.csv");
     std::filesystem::path metadataName(currPath);
     metadataName /= (std::to_string(now) + ".metadata.json");
+    sleep(1);
 
     writeCsv(dataName);
     writeJson(metadataName);
