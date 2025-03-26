@@ -46,7 +46,7 @@ void Result::writeCsv(const std::string& path) {
     for (size_t i = 0; i < replications_; ++i) {
         file << i + 1 << ";";
         for (size_t j = 0; j < testNames_.size(); ++j) {
-            file << measurements_[testNames_[j]][i];
+            file << measurements_[testNames_[j]][i].count();
             if (j != testNames_.size() - 1) {
                 file << ";";
             }
