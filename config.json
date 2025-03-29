@@ -3,40 +3,758 @@
     "benchmarks":[
         [
             {
-                "name": "packed - 1 000 000 shift 4 pointer align 16",
+                "name": "basic int - 1 000 identity",
+                "hasher": "identity",
+                "generator": "basic int",
+                "map size": 1000
+            },
+            {
+                "name": "basic int - 1 000 std::hash",
+                "hasher": "std::hash int",
+                "generator": "basic int",
+                "map size": 1000
+            },
+            {
+                "name": "basic int - 1 000 jenkins hash",
+                "hasher": "jenkins 32 bit",
+                "generator": "basic int",
+                "map size": 1000
+            },
+            {
+                "name": "basic int - 1 000 hash 1",
+                "hasher": "hash 1",
+                "generator": "basic int",
+                "map size": 1000
+            },
+            {
+                "name": "basic int - 1 000 multiplication",
+                "hasher": "multiplication hash",
+                "generator": "basic int",
+                "map size": 1000
+            },
+            {
+                "name": "basic int - 1 000 murmur2",
+                "hasher": "murmur2_int",
+                "generator": "basic int",
+                "map size": 1000
+            },
+            {
+                "name": "basic int - 1 000 murmur3",
+                "hasher": "murmur3_int",
+                "generator": "basic int",
+                "map size": 1000
+            }
+        ],
+        [
+            {
+                "name": "basic int - 1 000 identity",
+                "hasher": "identity",
+                "generator": "positive int",
+                "map size": 1000
+            },
+            {
+                "name": "basic int - 1 000 std::hash",
+                "hasher": "std::hash int",
+                "generator": "positive int",
+                "map size": 1000
+            },
+            {
+                "name": "basic int - 1 000 jenkins hash",
+                "hasher": "jenkins 32 bit",
+                "generator": "positive int",
+                "map size": 1000
+            },
+            {
+                "name": "basic int - 1 000 hash 1",
+                "hasher": "hash 1",
+                "generator": "positive int",
+                "map size": 1000
+            },
+            {
+                "name": "basic int - 1 000 multiplication",
+                "hasher": "multiplication hash",
+                "generator": "positive int",
+                "map size": 1000
+            },
+            {
+                "name": "basic int - 1 000 murmur2",
+                "hasher": "murmur2_int",
+                "generator": "positive int",
+                "map size": 1000
+            },
+            {
+                "name": "basic int - 1 000 murmur3",
+                "hasher": "murmur3_int",
+                "generator": "positive int",
+                "map size": 1000
+            }
+        ],
+        [
+            {
+                "name": "basic int - 100 000 identity",
+                "hasher": "identity",
+                "generator": "basic int",
+                "map size": 100000
+            },
+            {
+                "name": "basic int - 100 000 std::hash",
+                "hasher": "std::hash int",
+                "generator": "basic int",
+                "map size": 100000
+            },
+            {
+                "name": "basic int - 100 000 jenkins hash",
+                "hasher": "jenkins 32 bit",
+                "generator": "basic int",
+                "map size": 100000
+            },
+            {
+                "name": "basic int - 100 000 hash 1",
+                "hasher": "hash 1",
+                "generator": "basic int",
+                "map size": 100000
+            },
+            {
+                "name": "basic int - 100 000 multiplication",
+                "hasher": "multiplication hash",
+                "generator": "basic int",
+                "map size": 100000
+            },
+            {
+                "name": "basic int - 100 000 murmur2",
+                "hasher": "murmur2_int",
+                "generator": "basic int",
+                "map size": 100000
+            },
+            {
+                "name": "basic int - 100 000 murmur3",
+                "hasher": "murmur3_int",
+                "generator": "basic int",
+                "map size": 100000
+            }
+        ],
+        [
+            {
+                "name": "basic int - 100 000 identity",
+                "hasher": "identity",
+                "generator": "positive int",
+                "map size": 100000
+            },
+            {
+                "name": "basic int - 100 000 std::hash",
+                "hasher": "std::hash int",
+                "generator": "positive int",
+                "map size": 100000
+            },
+            {
+                "name": "basic int - 100 000 jenkins hash",
+                "hasher": "jenkins 32 bit",
+                "generator": "positive int",
+                "map size": 100000
+            },
+            {
+                "name": "basic int - 100 000 hash 1",
+                "hasher": "hash 1",
+                "generator": "positive int",
+                "map size": 100000
+            },
+            {
+                "name": "basic int - 100 000 multiplication",
+                "hasher": "multiplication hash",
+                "generator": "positive int",
+                "map size": 100000
+            },
+            {
+                "name": "basic int - 100 000 murmur2",
+                "hasher": "murmur2_int",
+                "generator": "positive int",
+                "map size": 100000
+            },
+            {
+                "name": "basic int - 100 000 murmur3",
+                "hasher": "murmur3_int",
+                "generator": "positive int",
+                "map size": 100000
+            }
+        ],
+        [
+            {
+                "name": "basic int - 100 000 000 identity",
+                "hasher": "identity",
+                "generator": "basic int",
+                "map size": 100000000
+            },
+            {
+                "name": "basic int - 100 000 000 std::hash",
+                "hasher": "std::hash int",
+                "generator": "basic int",
+                "map size": 100000000
+            },
+            {
+                "name": "basic int - 100 000 000 jenkins hash",
+                "hasher": "jenkins 32 bit",
+                "generator": "basic int",
+                "map size": 100000000
+            },
+            {
+                "name": "basic int - 100 000 000 hash 1",
+                "hasher": "hash 1",
+                "generator": "basic int",
+                "map size": 100000000
+            },
+            {
+                "name": "basic int - 100 000 000 multiplication",
+                "hasher": "multiplication hash",
+                "generator": "basic int",
+                "map size": 100000000
+            },
+            {
+                "name": "basic int - 100 000 000 murmur2",
+                "hasher": "murmur2_int",
+                "generator": "basic int",
+                "map size": 100000000
+            },
+            {
+                "name": "basic int - 100 000 000 murmur3",
+                "hasher": "murmur3_int",
+                "generator": "basic int",
+                "map size": 100000000
+            }
+        ],
+        [
+            {
+                "name": "basic int - 100 000 000 identity",
+                "hasher": "identity",
+                "generator": "positive int",
+                "map size": 100000000
+            },
+            {
+                "name": "basic int - 100 000 000 std::hash",
+                "hasher": "std::hash int",
+                "generator": "positive int",
+                "map size": 100000000
+            },
+            {
+                "name": "basic int - 100 000 000 jenkins hash",
+                "hasher": "jenkins 32 bit",
+                "generator": "positive int",
+                "map size": 100000000
+            },
+            {
+                "name": "basic int - 100 000 000 hash 1",
+                "hasher": "hash 1",
+                "generator": "positive int",
+                "map size": 100000000
+            },
+            {
+                "name": "basic int - 100 000 000 multiplication",
+                "hasher": "multiplication hash",
+                "generator": "positive int",
+                "map size": 100000000
+            },
+            {
+                "name": "basic int - 100 000 000 murmur2",
+                "hasher": "murmur2_int",
+                "generator": "positive int",
+                "map size": 100000000
+            },
+            {
+                "name": "basic int - 100 000 000 murmur3",
+                "hasher": "murmur3_int",
+                "generator": "positive int",
+                "map size": 100000000
+            }
+        ],
+        [
+            {
+                "name": "short str - 1 000 rolling hash",
+                "hasher": "rolling hash",
+                "generator": "small string",
+                "map size": 1000
+            },
+            {
+                "name": "short str - 1 000 jenkins hash",
+                "hasher": "jenkins hash",
+                "generator": "small string",
+                "map size": 1000
+            },
+            {
+                "name": "short str - 1 000 std::hash",
+                "hasher": "std::hash string",
+                "generator": "small string",
+                "map size": 1000
+            },
+            {
+                "name": "short str - 1 000 djb2",
+                "hasher": "djb2",
+                "generator": "small string",
+                "map size": 1000
+            },
+            {
+                "name": "short str - 1 000 sdbm",
+                "hasher": "sdbm",
+                "generator": "small string",
+                "map size": 1000
+            },
+            {
+                "name": "short str - 1 000 murmur2",
+                "hasher": "murmur2_str",
+                "generator": "small string",
+                "map size": 1000
+            },
+            {
+                "name": "short str - 1 000 murmur3",
+                "hasher": "murmur3_str",
+                "generator": "small string",
+                "map size": 1000
+            }
+        ],
+        [
+            {
+                "name": "long str - 1 000 rolling hash",
+                "hasher": "rolling hash",
+                "generator": "long string",
+                "map size": 1000
+            },
+            {
+                "name": "long str - 1 000 jenkins hash",
+                "hasher": "jenkins hash",
+                "generator": "long string",
+                "map size": 1000
+            },
+            {
+                "name": "long str - 1 000 std::hash",
+                "hasher": "std::hash string",
+                "generator": "long string",
+                "map size": 1000
+            },
+            {
+                "name": "long str - 1 000 djb2",
+                "hasher": "djb2",
+                "generator": "long string",
+                "map string": 1000
+            },
+            {
+                "name": "long str - 1 000 sdbm",
+                "hasher": "sdbm",
+                "generator": "long string",
+                "map string": 1000
+            },
+            {
+                "name": "long str - 1 000 murmur2",
+                "hasher": "murmur2_str",
+                "generator": "long string",
+                "map string": 1000
+            },
+            {
+                "name": "long str - 1 000 murmur3",
+                "hasher": "murmur3_str",
+                "generator": "long string",
+                "map string": 1000
+            }
+        ],
+        [
+            {
+                "name": "short str - 100 000 rolling hash",
+                "hasher": "rolling hash",
+                "generator": "small string",
+                "map size": 100000
+            },
+            {
+                "name": "short str - 100 000 jenkins hash",
+                "hasher": "jenkins hash",
+                "generator": "small string",
+                "map size": 100000
+            },
+            {
+                "name": "short str - 100 000 std::hash",
+                "hasher": "std::hash string",
+                "generator": "small string",
+                "map size": 100000
+            },
+            {
+                "name": "short str - 100 000 djb2",
+                "hasher": "djb2",
+                "generator": "small string",
+                "map size": 100000
+            },
+            {
+                "name": "short str - 100 000 sdbm",
+                "hasher": "sdbm",
+                "generator": "small string",
+                "map size": 100000
+            },
+            {
+                "name": "short str - 100 000 murmur2",
+                "hasher": "murmur2_str",
+                "generator": "small string",
+                "map size": 100000
+            },
+            {
+                "name": "short str - 100 000 murmur3",
+                "hasher": "murmur3_str",
+                "generator": "small string",
+                "map size": 100000
+            }
+        ],
+        [
+            {
+                "name": "long str - 100 000 rolling hash",
+                "hasher": "rolling hash",
+                "generator": "long string",
+                "map size": 100000
+            },
+            {
+                "name": "long str - 100 000 jenkins hash",
+                "hasher": "jenkins hash",
+                "generator": "long string",
+                "map size": 100000
+            },
+            {
+                "name": "long str - 100 000 std::hash",
+                "hasher": "std::hash string",
+                "generator": "long string",
+                "map size": 100000
+            },
+            {
+                "name": "long str - 100 000 djb2",
+                "hasher": "djb2",
+                "generator": "long string",
+                "map string": 100000
+            },
+            {
+                "name": "long str - 100 000 sdbm",
+                "hasher": "sdbm",
+                "generator": "long string",
+                "map string": 100000
+            },
+            {
+                "name": "long str - 100 000 murmur2",
+                "hasher": "murmur2_str",
+                "generator": "long string",
+                "map string": 100000
+            },
+            {
+                "name": "long str - 100 000 murmur3",
+                "hasher": "murmur3_str",
+                "generator": "long string",
+                "map string": 100000
+            }
+        ],
+        [
+            {
+                "name": "short str - 100 000 000 rolling hash",
+                "hasher": "rolling hash",
+                "generator": "small string",
+                "map size": 100000000
+            },
+            {
+                "name": "short str - 100 000 000 jenkins hash",
+                "hasher": "jenkins hash",
+                "generator": "small string",
+                "map size": 100000000
+            },
+            {
+                "name": "short str - 100 000 000 std::hash",
+                "hasher": "std::hash string",
+                "generator": "small string",
+                "map size": 100000000
+            },
+            {
+                "name": "short str - 100 000 000 djb2",
+                "hasher": "djb2",
+                "generator": "small string",
+                "map size": 100000000
+            },
+            {
+                "name": "short str - 100 000 000 sdbm",
+                "hasher": "sdbm",
+                "generator": "small string",
+                "map size": 100000000
+            },
+            {
+                "name": "short str - 100 000 000 murmur2",
+                "hasher": "murmur2_str",
+                "generator": "small string",
+                "map size": 100000000
+            },
+            {
+                "name": "short str - 100 000 000 murmur3",
+                "hasher": "murmur3_str",
+                "generator": "small string",
+                "map size": 100000000
+            }
+        ],
+        [
+            {
+                "name": "long str - 100 000 000 rolling hash",
+                "hasher": "rolling hash",
+                "generator": "long string",
+                "map size": 100000000
+            },
+            {
+                "name": "long str - 100 000 000 jenkins hash",
+                "hasher": "jenkins hash",
+                "generator": "long string",
+                "map size": 100000000
+            },
+            {
+                "name": "long str - 100 000 000 std::hash",
+                "hasher": "std::hash string",
+                "generator": "long string",
+                "map size": 100000000
+            },
+            {
+                "name": "long str - 100 000 000 djb2",
+                "hasher": "djb2",
+                "generator": "long string",
+                "map string": 100000000
+            },
+            {
+                "name": "long str - 100 000 000 sdbm",
+                "hasher": "sdbm",
+                "generator": "long string",
+                "map string": 100000000
+            },
+            {
+                "name": "long str - 100 000 000 murmur2",
+                "hasher": "murmur2_str",
+                "generator": "long string",
+                "map string": 100000000
+            },
+            {
+                "name": "long str - 100 000 000 murmur3",
+                "hasher": "murmur3_str",
+                "generator": "long string",
+                "map string": 100000000
+            }
+        ],
+        [
+            {
+                "name": "packed - 1 000 shift 4 pointer align 16",
+                "hasher": "shift 4 pointer align 16",
+                "generator": "packed pointer align 16",
+                "map size": 1000
+            },
+            {
+                "name": "packed - 1 000 shift 3 pointer align 8",
+                "hasher": "shift 3 pointer align 8",
+                "generator": "packed pointer align 8",
+                "map size": 1000
+            },
+            {
+                "name": "packed - 1 000 shift 5 pointer align 32",
+                "hasher": "shift 5 pointer align 32",
+                "generator": "packed pointer align 32",
+                "map size": 1000
+            },
+            {
+                "name": "packed - 1 000 std::hash ptr",
+                "hasher": "std::hash ptr",
+                "generator": "packed pointer align 8",
+                "map size": 1000
+            },
+            {
+                "name": "packed - 1 000 murmur2",
+                "hasher": "murmur2_ptr",
+                "generator": "packed pointer align 8",
+                "map size": 1000
+            },
+            {
+                "name": "packed - 1 000 murmur3",
+                "hasher": "murmur3_ptr",
+                "generator": "packed pointer align 8",
+                "map size": 1000
+            }
+        ],
+        [
+            {
+                "name": "packed - 1 000 shift 4 pointer align 16",
                 "hasher": "shift 4 pointer align 16",
                 "generator": "random pointer align 16",
-                "map size": 1000000
+                "map size": 1000
             },
             {
-                "name": "packed - 1 000 000 shift 3 pointer align 8",
+                "name": "packed - 1 000 shift 3 pointer align 8",
                 "hasher": "shift 3 pointer align 8",
                 "generator": "random pointer align 8",
-                "map size": 10000
+                "map size": 1000
             },
             {
-                "name": "packed - 1 000 000 shift 5 pointer align 32",
+                "name": "packed - 1 000 shift 5 pointer align 32",
                 "hasher": "shift 5 pointer align 32",
                 "generator": "random pointer align 32",
-                "map size": 10000
+                "map size": 1000
             },
             {
-                "name": "packed - 1 000 000 std::hash ptr",
+                "name": "packed - 1 000 std::hash ptr",
                 "hasher": "std::hash ptr",
                 "generator": "random pointer align 8",
-                "map size": 10000
+                "map size": 1000
             },
             {
-                "name": "packed - 1 000 000 murmur2",
+                "name": "packed - 1 000 murmur2",
                 "hasher": "murmur2_ptr",
                 "generator": "random pointer align 8",
-                "map size": 10000
+                "map size": 1000
             },
             {
-                "name": "packed - 1 000 000 murmur3",
+                "name": "packed - 1 000 murmur3",
                 "hasher": "murmur3_ptr",
                 "generator": "random pointer align 8",
-                "map size": 10000
+                "map size": 1000
+            }
+        ],
+        [
+            {
+                "name": "packed - 100 000 shift 4 pointer align 16",
+                "hasher": "shift 4 pointer align 16",
+                "generator": "packed pointer align 16",
+                "map size": 100000
+            },
+            {
+                "name": "packed - 100 000 shift 3 pointer align 8",
+                "hasher": "shift 3 pointer align 8",
+                "generator": "packed pointer align 8",
+                "map size": 100000
+            },
+            {
+                "name": "packed - 100 000 shift 5 pointer align 32",
+                "hasher": "shift 5 pointer align 32",
+                "generator": "packed pointer align 32",
+                "map size": 100000
+            },
+            {
+                "name": "packed - 100 000 std::hash ptr",
+                "hasher": "std::hash ptr",
+                "generator": "packed pointer align 8",
+                "map size": 100000
+            },
+            {
+                "name": "packed - 100 000 murmur2",
+                "hasher": "murmur2_ptr",
+                "generator": "packed pointer align 8",
+                "map size": 100000
+            },
+            {
+                "name": "packed - 100 000 murmur3",
+                "hasher": "murmur3_ptr",
+                "generator": "packed pointer align 8",
+                "map size": 100000
+            }
+        ],
+        [
+            {
+                "name": "packed - 100 000 shift 4 pointer align 16",
+                "hasher": "shift 4 pointer align 16",
+                "generator": "random pointer align 16",
+                "map size": 100000
+            },
+            {
+                "name": "packed - 100 000 shift 3 pointer align 8",
+                "hasher": "shift 3 pointer align 8",
+                "generator": "random pointer align 8",
+                "map size": 100000
+            },
+            {
+                "name": "packed - 100 000 shift 5 pointer align 32",
+                "hasher": "shift 5 pointer align 32",
+                "generator": "random pointer align 32",
+                "map size": 100000
+            },
+            {
+                "name": "packed - 100 000 std::hash ptr",
+                "hasher": "std::hash ptr",
+                "generator": "random pointer align 8",
+                "map size": 100000
+            },
+            {
+                "name": "packed - 100 000 murmur2",
+                "hasher": "murmur2_ptr",
+                "generator": "random pointer align 8",
+                "map size": 100000
+            },
+            {
+                "name": "packed - 100 000 murmur3",
+                "hasher": "murmur3_ptr",
+                "generator": "random pointer align 8",
+                "map size": 100000
+            }
+        ],
+        [
+            {
+                "name": "packed - 100 000 000 shift 4 pointer align 16",
+                "hasher": "shift 4 pointer align 16",
+                "generator": "packed pointer align 16",
+                "map size": 100000000
+            },
+            {
+                "name": "packed - 100 000 000 shift 3 pointer align 8",
+                "hasher": "shift 3 pointer align 8",
+                "generator": "packed pointer align 8",
+                "map size": 100000000
+            },
+            {
+                "name": "packed - 100 000 000 shift 5 pointer align 32",
+                "hasher": "shift 5 pointer align 32",
+                "generator": "packed pointer align 32",
+                "map size": 100000000
+            },
+            {
+                "name": "packed - 100 000 000 std::hash ptr",
+                "hasher": "std::hash ptr",
+                "generator": "packed pointer align 8",
+                "map size": 100000000
+            },
+            {
+                "name": "packed - 100 000 000 murmur2",
+                "hasher": "murmur2_ptr",
+                "generator": "packed pointer align 8",
+                "map size": 100000000
+            },
+            {
+                "name": "packed - 100 000 000 murmur3",
+                "hasher": "murmur3_ptr",
+                "generator": "packed pointer align 8",
+                "map size": 100000000
+            }
+        ],
+        [
+            {
+                "name": "packed - 100 000 000 shift 4 pointer align 16",
+                "hasher": "shift 4 pointer align 16",
+                "generator": "random pointer align 16",
+                "map size": 100000000
+            },
+            {
+                "name": "packed - 100 000 000 shift 3 pointer align 8",
+                "hasher": "shift 3 pointer align 8",
+                "generator": "random pointer align 8",
+                "map size": 100000000
+            },
+            {
+                "name": "packed - 100 000 000 shift 5 pointer align 32",
+                "hasher": "shift 5 pointer align 32",
+                "generator": "random pointer align 32",
+                "map size": 100000000
+            },
+            {
+                "name": "packed - 100 000 000 std::hash ptr",
+                "hasher": "std::hash ptr",
+                "generator": "random pointer align 8",
+                "map size": 100000000
+            },
+            {
+                "name": "packed - 100 000 000 murmur2",
+                "hasher": "murmur2_ptr",
+                "generator": "random pointer align 8",
+                "map size": 100000000
+            },
+            {
+                "name": "packed - 100 000 000 murmur3",
+                "hasher": "murmur3_ptr",
+                "generator": "random pointer align 8",
+                "map size": 100000000
             }
         ]
     ]
