@@ -7,18 +7,12 @@
 #include "Test.hpp"
 
 Benchmark* BenchmarkFactory::createBenchmark(
-        const std::vector<std::string>& types,
-        const std::vector<std::string>& hashers,
-        const std::vector<std::string>& generators, const size_t replications,
-        const std::vector<size_t>& mapSizes, const bool shuffle) {
-    auto* result = new Benchmark("test", mapSizes, replications, shuffle);
-    for (size_t i = 0; i < types.size(); ++i) {
-        load(i + 1, types.size());
-        TestDescriptor data{.name_ = types[i],
-                            .generator_ = generators[i],
-                            .hasher_ = hashers[i],
-                            .mapSize_ = mapSizes[i]};
-        result->addTest(createTest(data));
+        const std::vector<TestDescriptor>& descs, size_t replications,
+        bool shuffle) {
+    auto* result = new Benchmark("test", descs.size(), replications, shuffle);
+    for (size_t i = 0; i < descs.size(); ++i) {
+        load(i + 1, descs.size());
+        result->addTest(createTest(descs[i]));
     }
     return result;
 }

@@ -4,12 +4,7 @@
 
 class BenchmarkFactory {
     public:
-        static Benchmark*
-        createBenchmark(const std::vector<std::string>& types,
-                        const std::vector<std::string>& hashers,
-                        const std::vector<std::string>& generators,
-                        size_t replications,
-                        const std::vector<size_t>& mapSizes, bool shuffle);
+        static Benchmark* createBenchmark(const std::vector<TestDescriptor>& descs, size_t replications, bool shuffle);
 
     private:
         static TestBase* createTest(const TestDescriptor& descriptor);

@@ -2,10 +2,10 @@
 
 #include <iostream>
 
-Benchmark::Benchmark(std::string name, const std::vector<size_t>& sizes,
+Benchmark::Benchmark(std::string name, size_t size,
                      const size_t replications, const bool shuffle) :
     name_(std::move(name)) {
-    tests_.reserve(sizes.size());
+    tests_.reserve(size);
     replications_ = replications;
     shuffle_ = shuffle;
 }

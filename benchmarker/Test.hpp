@@ -15,7 +15,7 @@ struct TestDescriptor {
 
 class TestBase {
     public:
-        virtual void execute() = 0;
+        virtual bool execute() = 0;
         virtual std::string getName() = 0;
         virtual size_t getMapSize() = 0;
         virtual TestDescriptor& getDescriptor() = 0;
@@ -34,7 +34,7 @@ class Test : public TestBase {
     public:
         Test(Gen generator, TestDescriptor data);
         std::string getName() override;
-        void execute() override;
+        bool execute() override;
         size_t getMapSize() override;
         TestDescriptor& getDescriptor() override;
         void shuffleKeys() override;
@@ -59,10 +59,12 @@ std::string Test<Map, K, Gen>::getName() {
  * looks up keys provided in construction
  */
 template<typename Map, typename K, typename Gen>
-void Test<Map, K, Gen>::execute() {
+bool Test<Map, K, Gen>::execute() {
+    bool res = false;
     for (K key: keys_) {
-        map_.contains(key);
+        res = map_.contains(key);
     }
+    return res;
 }
 
 template<typename Map, typename K, typename Gen>
