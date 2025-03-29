@@ -1,0 +1,6 @@
+@startuml
+class BenchmarkFactory {
+    +{static} Benchmark* createBenchmark(const std::vector<std::string> &types, const std::vector<std::string> &hashers, const std::vector<std::string> &generators, size_t replications, const std::vector<size_t> &mapSizes);
+    -{static) TestBase* createTest(const TestDescriptor &descriptor)
+}
+@enduml

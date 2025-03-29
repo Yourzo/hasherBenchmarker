@@ -1,0 +1,8 @@
+@startuml
+struct TestDescriptor {
++std::string name_
++std::string generator_
++std::string hasher
++size_t mapSize_
+}
+@enduml

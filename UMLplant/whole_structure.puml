@@ -1,0 +1,66 @@
+@startuml
+Metaclass main
+
+class Result {
+    -std::map<std::string, std::vector<nano_t>> measurements_
+    -std::vector<std::string> testNames_
+    -std::unordered_map<std::string, TestDescriptor> metadata_
+    -size_t replications_
+    + Result(size_t replications)
+    + void outPutRecs()
+    + void printAvg()
+    + void writeToFile() const
+    + void addTest(const std::string &testName, TestDescriptor &testDataPtr)
+    + void addRecord(const std::string &testName, nano_t record)
+    - void writeCsv(const std::string &path) const
+    - void writeJson(const std::string &path) const
+}
+
+class BenchmarkFactory {
+    +{static} Benchmark* createBenchmark(const std::vector<std::string> &types, const std::vector<std::string> &hashers, const std::vector<std::string> &generators, size_t replications, const std::vector<size_t> &mapSizes);
+    -{static} TestBase* createTest(const TestDescriptor &descriptor)
+}
+
+class Benchmark {
+    -std::vector<TestBase*> tests_
+    -size_t replications_
+    -std::string name_
+
+    +Benchmark(std::string name, const std::vector<size_t> &sizes, size_t replications)
+    +void addTest(TestBase *test)
+    +Result* run();
+    -void printProgresBar(size_t count, double index)
+    }
+
+
+abstract TestBase {
++void {abstract} execute()
++std::string {abstract} getName()
++size_t {abstract} getMapSize()
++TestDescriptor& {abstract} getTestDescriptor()
+void {abstract} shuffleKeys()
+}
+
+class Test<Map, K, Gen> {
+-Map map
+-std::vector<K> keys_
+-TestDescriptor metadata_
+-std::default_random_engine rng_
+}
+
+struct TestDescriptor {
++std::string name_
++std::string generator_
++std::string hasher
++size_t mapSize_
+}
+
+Result -- main
+Benchmark -- main
+BenchmarkFactory -- main
+Benchmark <-- BenchmarkFactory : "creates"
+Benchmark "1" *-- "1..n" TestBase
+Test *-- TestDescriptor
+Benchmark --> Result : "creates"
+TestBase <|-- Test
+@enduml

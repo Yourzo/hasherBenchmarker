@@ -1,0 +1,12 @@
+@startuml
+class Benchmark {
+    -std::vector<TestBase*> tests_
+    -size_t replications_
+    -std::string name_
+
+    +Benchmark(std::string name, const std::vector<size_t> &sizes, size_t replications)
+    +void addTest(TestBase *test)
+    +Result* run();
+    -void printProgresBar(size_t count, double index)
+    }
+@enduml

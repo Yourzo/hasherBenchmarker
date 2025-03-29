@@ -36,7 +36,7 @@ template<typename T>
 struct murmur2_ptr {
     const Murmur2Hash64A multipurpose_ = Murmur2Hash64A();
     std::size_t operator()(const T* p) const {
-        return multipurpose_(p, sizeof(p), 0x9747b28c);
+        return multipurpose_(&p, sizeof(p), 12345678);
     }
 };
 
@@ -44,6 +44,6 @@ template<typename T>
 struct murmur3_ptr {
     const Murmur3Hash64 multipurpose_ = Murmur3Hash64();
     std::size_t operator()(const T* p) const {
-        return multipurpose_(p, sizeof(p), 12345678);
+        return multipurpose_(&p, sizeof(p), 12345678);
     }
 };

@@ -4,13 +4,13 @@
 
 struct Murmur2Hash64A {
     std::size_t operator()( const void * key, int len, std::size_t seed ) const {
-        const std::size_t m = 0xc6a4a7935bd1e995LLU;
-        const int r = 47;
+        constexpr std::size_t m = 0xc6a4a7935bd1e995LLU;
+        constexpr int r = 47;
 
         std::size_t h = seed ^ (len * m);
 
-        const std::size_t * data = (const std::size_t *)key;
-        const std::size_t * end = data + (len/8);
+        auto data = static_cast<const uint8_t *>(key);
+        const uint8_t * end = data + (len/8);
 
         while(data != end)
         {

@@ -1,0 +1,19 @@
+@startuml
+
+abstract TestBase {
++void {abstract} execute()
++std::string {abstract} getName()
++size_t {abstract} getMapSize()
++TestDescriptor& {abstract} getTestDescriptor()
+void {abstract} shuffleKeys()
+}
+
+class Test<Map, K, Gen> {
+-Map map_
+-std::vector<K> keys_
+-TestDescriptor metadata_
+-std::default_random_engine rng_
+}
+
+TestBase <|-- Test
+@enduml
