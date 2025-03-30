@@ -1,11 +1,11 @@
 @startuml
 
 abstract TestBase {
-+void {abstract} execute()
++bool {abstract} execute()
 +std::string {abstract} getName()
 +size_t {abstract} getMapSize()
 +TestDescriptor& {abstract} getTestDescriptor()
-void {abstract} shuffleKeys()
++void {abstract} shuffleKeys()
 }
 
 class Test<Map, K, Gen> {

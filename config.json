@@ -332,25 +332,25 @@
                 "name": "long str - 1 000 djb2",
                 "hasher": "djb2",
                 "generator": "long string",
-                "map string": 1000
+                "map size": 1000
             },
             {
                 "name": "long str - 1 000 sdbm",
                 "hasher": "sdbm",
                 "generator": "long string",
-                "map string": 1000
+                "map size": 1000
             },
             {
                 "name": "long str - 1 000 murmur2",
                 "hasher": "murmur2_str",
                 "generator": "long string",
-                "map string": 1000
+                "map size": 1000
             },
             {
                 "name": "long str - 1 000 murmur3",
                 "hasher": "murmur3_str",
                 "generator": "long string",
-                "map string": 1000
+                "map size": 1000
             }
         ],
         [
@@ -420,25 +420,25 @@
                 "name": "long str - 100 000 djb2",
                 "hasher": "djb2",
                 "generator": "long string",
-                "map string": 100000
+                "map size": 100000
             },
             {
                 "name": "long str - 100 000 sdbm",
                 "hasher": "sdbm",
                 "generator": "long string",
-                "map string": 100000
+                "map size": 100000
             },
             {
                 "name": "long str - 100 000 murmur2",
                 "hasher": "murmur2_str",
                 "generator": "long string",
-                "map string": 100000
+                "map size": 100000
             },
             {
                 "name": "long str - 100 000 murmur3",
                 "hasher": "murmur3_str",
                 "generator": "long string",
-                "map string": 100000
+                "map size": 100000
             }
         ],
         [
@@ -508,25 +508,25 @@
                 "name": "long str - 100 000 000 djb2",
                 "hasher": "djb2",
                 "generator": "long string",
-                "map string": 100000000
+                "map size": 100000000
             },
             {
                 "name": "long str - 100 000 000 sdbm",
                 "hasher": "sdbm",
                 "generator": "long string",
-                "map string": 100000000
+                "map size": 100000000
             },
             {
                 "name": "long str - 100 000 000 murmur2",
                 "hasher": "murmur2_str",
                 "generator": "long string",
-                "map string": 100000000
+                "map size": 100000000
             },
             {
                 "name": "long str - 100 000 000 murmur3",
                 "hasher": "murmur3_str",
                 "generator": "long string",
-                "map string": 100000000
+                "map size": 100000000
             }
         ],
         [

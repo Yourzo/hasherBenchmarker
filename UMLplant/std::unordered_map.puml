@@ -1,0 +1,5 @@
+@startuml
+class std::unordered_map<Key, T, Hash>{
+}
+
+@enduml
