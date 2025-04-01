@@ -12,8 +12,6 @@ using nano_t = std::chrono::nanoseconds;
 class Result {
     public:
         explicit Result(size_t replications);
-        void outPutRecs();
-        void printAvg();
         void writeToFile();
         void addTest(const std::string& testName, TestDescriptor& testDataPtr);
         void addRecord(const std::string& testName, nano_t record);

@@ -13,6 +13,12 @@ class Test<Map, K, Gen> {
 -std::vector<K> keys_
 -TestDescriptor metadata_
 -std::default_random_engine rng_
++Test(Gen generator, TestDescriptor data)
++bool execute()
++std::string getName()
++size_t getMapSize()
++TestDescriptor& getTestDescriptor()
++void shuffleKeys()
 }
 
 TestBase <|-- Test
