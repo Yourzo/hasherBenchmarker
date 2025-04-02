@@ -70,12 +70,12 @@ TestBase* BenchmarkFactory::createTest(const TestDescriptor& descriptor) {
                 GeneratorFactory::createStringGenerator(descriptor.generator_),
                 descriptor);
     } else if (descriptor.hasher_ == "djb2") {
-        return new Test<std::unordered_map<std::string, int>, std::string,
+        return new Test<std::unordered_map<std::string, int, djb2>, std::string,
                         StringGenerator*>(
                 GeneratorFactory::createStringGenerator(descriptor.generator_),
                 descriptor);
     } else if (descriptor.hasher_ == "sdbm") {
-        return new Test<std::unordered_map<std::string, int>, std::string,
+        return new Test<std::unordered_map<std::string, int, sdbm>, std::string,
                         StringGenerator*>(
                 GeneratorFactory::createStringGenerator(descriptor.generator_),
                 descriptor);
@@ -124,6 +124,14 @@ TestBase* BenchmarkFactory::createTest(const TestDescriptor& descriptor) {
 
         return new Test<std::unordered_map<Dummy<8>*, int>, Dummy<8>*,
                         PointerGenerator<Dummy<8>>*>(generator, descriptor);
+    } else if (descriptor.hasher_ == "simple_xor_shift") {
+        auto generator = reinterpret_cast<PointerGenerator<Dummy<8>>*>(
+                GeneratorFactory::createPointerGenerator(
+                        descriptor.generator_));
+
+        return new Test<std::unordered_map<Dummy<8>*, int, simple_xor_shift<Dummy<8>>>,
+                        Dummy<8>*, PointerGenerator<Dummy<8>>*>(generator,
+                                                                descriptor);
     } else if (descriptor.hasher_ == "murmur2_ptr") {
         auto generator = reinterpret_cast<PointerGenerator<Dummy<8>>*>(
                 GeneratorFactory::createPointerGenerator(

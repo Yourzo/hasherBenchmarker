@@ -60,7 +60,7 @@ std::string Test<Map, K, Gen>::getName() {
  */
 template<typename Map, typename K, typename Gen>
 bool Test<Map, K, Gen>::execute() {
-    bool res = false;
+    volatile bool res = false;
     for (K key: keys_) {
         res = map_.contains(key);
     }
