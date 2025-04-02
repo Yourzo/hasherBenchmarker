@@ -124,7 +124,7 @@ TestBase* BenchmarkFactory::createTest(const TestDescriptor& descriptor) {
 
         return new Test<std::unordered_map<Dummy<8>*, int>, Dummy<8>*,
                         PointerGenerator<Dummy<8>>*>(generator, descriptor);
-    } else if (descriptor.hasher_ == "simple_xor_shift") {
+    } else if (descriptor.hasher_ == "simple xor shift") {
         auto generator = reinterpret_cast<PointerGenerator<Dummy<8>>*>(
                 GeneratorFactory::createPointerGenerator(
                         descriptor.generator_));

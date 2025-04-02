@@ -517,12 +517,6 @@
                 "map size": 100000000
             },
             {
-                "name": "long str - 100 000 000 murmur2",
-                "hasher": "murmur2_str",
-                "generator": "long string",
-                "map size": 100000000
-            },
-            {
                 "name": "long str - 100 000 000 murmur3",
                 "hasher": "murmur3_str",
                 "generator": "long string",
@@ -551,6 +545,12 @@
             {
                 "name": "packed - 1 000 std::hash ptr",
                 "hasher": "std::hash ptr",
+                "generator": "packed pointer align 8",
+                "map size": 1000
+            },
+            {
+                "name": "packed - 100 000 simple xor shift",
+                "hasher": "simple xor shift",
                 "generator": "packed pointer align 8",
                 "map size": 1000
             },
@@ -593,6 +593,12 @@
                 "map size": 1000
             },
             {
+                "name": "packed - 100 000 simple xor shift",
+                "hasher": "simple xor shift",
+                "generator": "random pointer align 8",
+                "map size": 1000
+            },
+            {
                 "name": "packed - 1 000 murmur2",
                 "hasher": "murmur2_ptr",
                 "generator": "random pointer align 8",
@@ -631,8 +637,8 @@
                 "map size": 100000
             },
             {
-                "name": "packed - 100 000 murmur2",
-                "hasher": "murmur2_ptr",
+                "name": "packed - 100 000 simple xor shift",
+                "hasher": "simple xor shift",
                 "generator": "packed pointer align 8",
                 "map size": 100000
             },
@@ -669,8 +675,8 @@
                 "map size": 100000
             },
             {
-                "name": "packed - 100 000 murmur2",
-                "hasher": "murmur2_ptr",
+                "name": "packed - 100 000 simple xor shift",
+                "hasher": "simple xor shift",
                 "generator": "random pointer align 8",
                 "map size": 100000
             },
@@ -707,8 +713,8 @@
                 "map size": 100000000
             },
             {
-                "name": "packed - 100 000 000 murmur2",
-                "hasher": "murmur2_ptr",
+                "name": "packed - 100 000 simple xor shift",
+                "hasher": "simple xor shift",
                 "generator": "packed pointer align 8",
                 "map size": 100000000
             },
@@ -745,8 +751,8 @@
                 "map size": 100000000
             },
             {
-                "name": "packed - 100 000 000 murmur2",
-                "hasher": "murmur2_ptr",
+                "name": "packed - 100 000 simple xor shift",
+                "hasher": "simple xor shift",
                 "generator": "random pointer align 8",
                 "map size": 100000000
             },
