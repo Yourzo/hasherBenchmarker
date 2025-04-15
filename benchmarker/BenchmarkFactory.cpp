@@ -147,6 +147,66 @@ TestBase* BenchmarkFactory::createTest(const TestDescriptor& descriptor) {
         return new Test<std::unordered_map<Dummy<8>*, int, murmur3_ptr<Dummy<8>>>,
                         Dummy<8>*, PointerGenerator<Dummy<8>>*>(generator,
                                                                 descriptor);
+    } else if (descriptor.hasher_ == "std::hash ptr align 16") {
+        auto generator = reinterpret_cast<PointerGenerator<Dummy<16>>*>(
+                GeneratorFactory::createPointerGenerator(
+                        descriptor.generator_));
+
+        return new Test<std::unordered_map<Dummy<16>*, int>, Dummy<16>*,
+                        PointerGenerator<Dummy<16>>*>(generator, descriptor);
+    } else if (descriptor.hasher_ == "simple xor shift align 16") {
+        auto generator = reinterpret_cast<PointerGenerator<Dummy<16>>*>(
+                GeneratorFactory::createPointerGenerator(
+                        descriptor.generator_));
+
+        return new Test<std::unordered_map<Dummy<16>*, int, simple_xor_shift<Dummy<16>>>,
+                        Dummy<16>*, PointerGenerator<Dummy<16>>*>(generator,
+                                                                descriptor);
+    } else if (descriptor.hasher_ == "murmur2_ptr align 16") {
+        auto generator = reinterpret_cast<PointerGenerator<Dummy<16>>*>(
+                GeneratorFactory::createPointerGenerator(
+                        descriptor.generator_));
+
+        return new Test<std::unordered_map<Dummy<16>*, int, murmur2_ptr<Dummy<16>>>,
+                        Dummy<16>*, PointerGenerator<Dummy<16>>*>(generator,
+                                                                descriptor);
+    } else if (descriptor.hasher_ == "murmur3_ptr align 16") {
+        auto generator = reinterpret_cast<PointerGenerator<Dummy<16>>*>(
+                GeneratorFactory::createPointerGenerator(
+                        descriptor.generator_));
+        return new Test<std::unordered_map<Dummy<16>*, int, murmur3_ptr<Dummy<16>>>,
+                        Dummy<16>*, PointerGenerator<Dummy<16>>*>(generator,
+                                                                descriptor);
+    } else if (descriptor.hasher_ == "std::hash ptr align 32") {
+        auto generator = reinterpret_cast<PointerGenerator<Dummy<32>>*>(
+                GeneratorFactory::createPointerGenerator(
+                        descriptor.generator_));
+
+        return new Test<std::unordered_map<Dummy<32>*, int>, Dummy<32>*,
+                        PointerGenerator<Dummy<32>>*>(generator, descriptor);
+    } else if (descriptor.hasher_ == "simple xor shift align 32") {
+        auto generator = reinterpret_cast<PointerGenerator<Dummy<32>>*>(
+                GeneratorFactory::createPointerGenerator(
+                        descriptor.generator_));
+
+        return new Test<std::unordered_map<Dummy<32>*, int, simple_xor_shift<Dummy<32>>>,
+                        Dummy<32>*, PointerGenerator<Dummy<32>>*>(generator,
+                                                                descriptor);
+    } else if (descriptor.hasher_ == "murmur2_ptr align 32") {
+        auto generator = reinterpret_cast<PointerGenerator<Dummy<32>>*>(
+                GeneratorFactory::createPointerGenerator(
+                        descriptor.generator_));
+
+        return new Test<std::unordered_map<Dummy<32>*, int, murmur2_ptr<Dummy<32>>>,
+                        Dummy<32>*, PointerGenerator<Dummy<32>>*>(generator,
+                                                                descriptor);
+    } else if (descriptor.hasher_ == "murmur3_ptr align 32") {
+        auto generator = reinterpret_cast<PointerGenerator<Dummy<32>>*>(
+                GeneratorFactory::createPointerGenerator(
+                        descriptor.generator_));
+        return new Test<std::unordered_map<Dummy<32>*, int, murmur3_ptr<Dummy<32>>>,
+                        Dummy<32>*, PointerGenerator<Dummy<32>>*>(generator,
+                                                                descriptor);
     }
     throw std::invalid_argument("Hasher: <" + descriptor.hasher_ +
                                 "> not recognized");
