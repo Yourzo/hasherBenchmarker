@@ -8,7 +8,6 @@
 #include <vector>
 #include <limits>
 #include <list>
-#include "uuid_v4"
 
 #include "../hasherLib/pointer_hasher.hpp"
 #include "BenchmarkFactory.hpp"
@@ -58,9 +57,11 @@ struct PopPointerGenerator : public PointerGenerator<T> {
     std::vector<T*> operator()(size_t count) override {
         std::vector<T*> result;
         result.resize(count);
-        std::list<T> blocks = new std::list<T>(count);
-        for (size_t i = 0; i < count; i++) {
-            result[i] = &blocks[i];
+        auto* blocks = new std::list<T>(count);
+        size_t i = 0;
+        for (auto block : *blocks) {
+            result[i] = &block;
+            ++i;
         }
         return result;
     }
