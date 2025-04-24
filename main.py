@@ -86,18 +86,22 @@ for base_name, files in dataset_pairs.items():
 
     sns.set_theme(style="whitegrid")
     plt.figure(figsize=(10, 6))
-
+    plt.gcf().canvas.manager.set_window_title(f"line plot {metadata["hashers"][0]["map size"]} of {metadata["hashers"][0]["generator"]}")
     for col in data.columns[1:]:
         sns.lineplot(x="replications", y=col, data=data, label=col, linewidth=2)
+
+        #plt.fill_between(data["replications"],
+        #                 stats_data[col]["CI_lower"],
+        #                 stats_data[col]["CI_upper"],
+        #                 alpha=0.2)
 
     plt.ylabel("Time (ns)", fontsize=12)
     plt.xlabel("Replications", fontsize=12)
     plt.title(f"Performance Over Replications ({base_name})", fontsize=14, fontweight="bold")
     plt.legend(title="Hashing Functions", bbox_to_anchor=(1.05, 1), loc="upper left")
-    plt.xlim(21, data["replications"].max())
+    plt.xlim(data["replications"].min(), data["replications"].max())
     plt.tight_layout()
     plt.show()
-
 
     box_plot_data = [data[col] for col in data.columns[1:]]
     box_plot_labels = [hasher["hashType"] for hasher in metadata["hashers"]]
@@ -110,7 +114,26 @@ for base_name, files in dataset_pairs.items():
     plt.xticks(rotation=45, ha="right")
     plt.grid(axis="y", linestyle="--", alpha=0.7)
     plt.tight_layout()
+    plt.gcf().canvas.manager.set_window_title(f"box plot {metadata["hashers"][0]["map size"]} of {metadata["hashers"][0]["generator"]}")
     plt.show()
+
+    #plt.figure(figsize=(10, 6))
+
+    #for col in data.columns[1:]:
+    #    plt.plot(data["replications"],
+    #             [stats_data[col]["CI_lower"]] * len(data),
+    #             label=f"{col} CI Lower", linestyle="--", color="r", alpha=0.5)
+    #    plt.plot(data["replications"],
+    #             [stats_data[col]["CI_upper"]] * len(data),
+    #             label=f"{col} CI Upper", linestyle="--", color="g", alpha=0.5)
+
+    #plt.ylabel("Time (ns)", fontsize=12)
+    #plt.xlabel("Replications", fontsize=12)
+    #plt.title(f"Confidence Intervals for Performance ({base_name})", fontsize=14, fontweight="bold")
+    #plt.legend(title="Hashing Functions", bbox_to_anchor=(1.05, 1), loc="upper left")
+    #plt.tight_layout()
+    #plt.show()
+
     print("Dataset finished")
 
 print("\n✅ Processing complete for all datasets.")

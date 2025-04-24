@@ -4,6 +4,12 @@ build
 results
 assets
 .venv
+.venv1
+python-3.13.2-amd64.exe
+results.zip
+hold
+results0
+
 theory
 held.cpp
 .json

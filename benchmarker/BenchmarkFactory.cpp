@@ -53,6 +53,13 @@ TestBase* BenchmarkFactory::createTest(const TestDescriptor& descriptor) {
                 GeneratorFactory::createGenerator(descriptor.generator_),
                 descriptor);
     }
+    if (descriptor.hasher_ == "fill hash") {
+        return new Test<std::unordered_map<int, int, fill_hash>, int,
+                        IntGenerator*>(
+                                GeneratorFactory::createGenerator(descriptor.generator_),
+                                descriptor
+                                );
+    }
 
     if (descriptor.hasher_ == "rolling hash") {
         return new Test<std::unordered_map<std::string, int, rolling_sum_hash>,

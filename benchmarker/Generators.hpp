@@ -7,6 +7,8 @@
 #include <unordered_map>
 #include <vector>
 #include <limits>
+#include <list>
+#include "uuid_v4"
 
 #include "../hasherLib/pointer_hasher.hpp"
 #include "BenchmarkFactory.hpp"
@@ -49,6 +51,19 @@ struct PointerRandomPlaceGenerator : public PointerGenerator<T> {
             }
             return result;
         }
+};
+
+template<typename T>
+struct PopPointerGenerator : public PointerGenerator<T> {
+    std::vector<T*> operator()(size_t count) override {
+        std::vector<T*> result;
+        result.resize(count);
+        std::list<T> blocks = new std::list<T>(count);
+        for (size_t i = 0; i < count; i++) {
+            result[i] = &blocks[i];
+        }
+        return result;
+    }
 };
 
 template<int min, int max>

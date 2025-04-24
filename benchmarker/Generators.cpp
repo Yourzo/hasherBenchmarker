@@ -50,6 +50,16 @@ void GeneratorFactory::initGens() {
     pointerGenerators_["random pointer align 32"] = []() {
         return new PointerRandomPlaceGenerator<Dummy<32>>();
     };
+
+    pointerGenerators_["pop pointer align 8"] = []() {
+        return new PopPointerGenerator<Dummy<8>>();
+    };
+    pointerGenerators_["pop pointer align 16"] = []() {
+        return new PopPointerGenerator<Dummy<16>>();
+    };
+    pointerGenerators_["pop pointer align 32"] = []() {
+        return new PopPointerGenerator<Dummy<32>>();
+    };
 }
 
 IntGenerator* GeneratorFactory::createGenerator(const std::string& name) {

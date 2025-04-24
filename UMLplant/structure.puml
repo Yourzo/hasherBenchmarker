@@ -1,0 +1,29 @@
+@startuml
+hide members
+package benchmark {
+    metaclass main
+    class Benchmark
+    class Test<Map, K, Gen>
+    abstract TestBase
+    class GeneratorFactory
+    class BenchmarkFactory
+    class Result
+    struct TestDescriptor
+
+    package Generators <<Rectangle>> {
+        struct IntGenerator
+        struct StringGenerator
+        struct PointerGenerator<T>
+    }
+}
+main <-- BenchmarkFactory
+TestBase <|-- Test
+Test *- TestDescriptor
+Benchmark *-- TestBase
+BenchmarkFactory -> Test
+BenchmarkFactory -> Benchmark
+Benchmark --> Result
+Benchmark --> GeneratorFactory
+Test *-- Generators
+GeneratorFactory ----> Generators
+@enduml

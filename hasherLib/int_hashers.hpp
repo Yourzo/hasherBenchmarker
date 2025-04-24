@@ -2,10 +2,21 @@
 
 #include <cstddef>
 #include <iostream>
+#include <limits>
 
 #include "general_purpose_hashers.hpp"
 
-//https://burtleburtle.net/bob/hash/doobs.html this might be great source for me
+struct fill_hash {
+    std::size_t operator()(const int& x) const {
+        std::size_t res = x;
+        if (x < 0) {
+            res += std::numeric_limits<int>::max();
+        }
+        return res;
+    }
+};
+
+//https://burtleburtle.net/bob/hash/doobs.html this might be a great source for me
 
 /**
  * https://burtleburtle.net/bob/hash/integer.html
